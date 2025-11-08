@@ -23,30 +23,29 @@
     body{
       margin:0;
       font-family:var(--font);
-      color:#153624; /* darker body text */
+      color:#0c2217;
       background:var(--cream);
       -webkit-font-smoothing:antialiased;
     }
 
-    /* === BACKGROUND IMAGE === */
+    /* === BACKGROUND IMAGE (tasker.PNG) === */
     body::before{
       content:"";
-      position:fixed; inset:0; z-index:-1;
-      background-image:url("/images/tasker.PNG");
-      background-size:cover; background-position:center;
-      opacity:.98;
-      filter:brightness(1.02) saturate(1.05) blur(0.3px);
+      position:fixed; inset:0; z-index:-2;
+      background:url("/images/tasker.PNG") center/cover no-repeat;
+      opacity:1;                 /* full image */
+      filter:brightness(.96) saturate(1.02) blur(.3px);
     }
-
-    /* === LIGHT OVERLAY (SUBTLE GRADIENT) === */
+    /* === DARK SCRIM FOR LEGIBILITY (heavier than before) === */
     body::after{
       content:"";
       position:fixed; inset:0; z-index:-1;
-      background:linear-gradient(180deg,
-        rgba(250,248,242,.06) 0%,
-        rgba(250,248,242,.08) 35%,
-        rgba(250,248,242,.10) 70%,
-        rgba(250,248,242,.12) 100%);
+      background:
+        linear-gradient(180deg,
+          rgba(20,61,42,.32) 0px,            /* darker over hero */
+          rgba(20,61,42,.26) 280px,
+          rgba(247,243,234,.18) 60%,
+          rgba(247,243,234,.22) 100%);
       pointer-events:none;
     }
 
@@ -90,40 +89,35 @@
     .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.32);opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:19}
     .backdrop.show{opacity:1;pointer-events:auto}
 
-    /* === PAGE CONTAINER === */
+    /* Page container over bg (semi see-through) */
     .wrap{
       width:100%;max-width:460px;margin:0 auto;padding:var(--space-8) var(--space-4);
-      background:rgba(255,255,255,.48);
-      backdrop-filter:saturate(1.05) blur(.5px);
+      background:rgba(255,255,255,.40);
+      backdrop-filter:saturate(1.05) blur(.6px);
       border-radius:0 0 var(--radius-sm) var(--radius-sm);
       box-shadow:var(--shadow-sm);
-      color:#183528;
+      color:#0d2619;
     }
 
-    /* === DARKER TEXT HEADERS + SHADOW === */
-    h1, h2, h3, .title{
-      color:#0F291C;
-      text-shadow:0 1px 2px rgba(0,0,0,0.1);
-    }
-    h1, h2, h3, p, li{
-      text-shadow:0 1px 2px rgba(0,0,0,0.08);
-    }
+    /* Stronger text for hero copy */
+    h1,h2,h3,.title{color:#092014;text-shadow:0 2px 4px rgba(0,0,0,.28)}
+    p,li{color:#0f2a1b;text-shadow:0 1px 2px rgba(0,0,0,.18)}
 
-    .eyebrow{font-weight:900;letter-spacing:.08em;font-size:.78rem;color:#355546;text-transform:uppercase;margin:0 0 .6rem}
+    .eyebrow{font-weight:900;letter-spacing:.08em;font-size:.78rem;color:#e9f4ee;text-transform:uppercase;margin:0 0 .6rem;text-shadow:0 1px 2px rgba(0,0,0,.35)}
     .title{margin:.25rem 0 var(--space-4);font-weight:900;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
-    .sub{margin:0 0 var(--space-6);color:#1E3C2A}
+    .sub{margin:0 0 var(--space-6);color:#10311f}
 
     /* Steps & cards */
     .steps{display:grid;gap:12px;margin:var(--space-6) 0}
     .card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff;box-shadow:var(--shadow-sm)}
     .card h3{margin:.2rem 0 .35rem;font-size:1.05rem}
-    .card p{margin:0;color:#2c3f37;font-size:.98rem}
+    .card p{margin:0;color:#2c3f37;font-size:.98rem;text-shadow:none}
 
     /* Task grid */
     .tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:var(--space-6) 0}
     .task{border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;background:#fff}
     .task .ico{font-size:22px;display:block;margin-bottom:6px}
-    .task span{font-weight:800;color:#2b453a}
+    .task span{font-weight:800;color:#2b453a;text-shadow:none}
 
     /* Checklists */
     .list{margin:0;padding:0;list-style:none}
@@ -139,13 +133,13 @@
     .btn-primary{background:#143D2A;color:#fff;box-shadow:var(--shadow-md)}
     .btn-secondary{background:#fff;color:#224E3B;border-color:var(--line)}
 
-    /* === SIGNUP PANEL === */
+    /* Signup */
     .signup{
-      background:rgba(247,243,234,.46);
+      background:rgba(247,243,234,.50);
       padding:2rem 1rem 2.25rem;text-align:center;border-top:1px solid var(--line);
       border-radius:0 0 var(--radius-sm) var(--radius-sm);margin-top:var(--space-6)
     }
-    .signup h2{font-size:1.35rem;margin:0 0 1rem;font-weight:900;color:#0F291C;text-shadow:0 1px 2px rgba(0,0,0,0.1);}
+    .signup h2{font-size:1.35rem;margin:0 0 1rem;font-weight:900;color:#0F291C;text-shadow:0 2px 4px rgba(0,0,0,.25)}
     .signup form{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;width:100%}
     .signup input[type="email"]{padding:12px 16px;border-radius:1000px;border:1px solid var(--line);width:70%;max-width:320px;font-size:1rem;background:#fff}
     .signup button{background:#143D2A;color:#fff;border:none;border-radius:1000px;padding:12px 20px;font-weight:900;cursor:pointer;min-width:130px}
@@ -153,10 +147,10 @@
 
     /* FAQ */
     .faq{margin:var(--space-6) 0}
-    .faq details{border-top:1px solid var(--line);padding:12px 0}
+    .faq details{border-top:1px solid var(--line);padding:12px 0;background:rgba(255,255,255,.65)}
     .faq details:first-of-type{border-top:none}
-    .faq summary{cursor:pointer;font-weight:800;color:#153624}
-    .faq p{margin:.5rem 0 0;color:#1E3C2A}
+    .faq summary{cursor:pointer;font-weight:800;color:#153624;text-shadow:none}
+    .faq p{margin:.5rem 0 0;color:#1E3C2A;text-shadow:none}
 
     @media (min-width:768px){
       .wrap{max-width:720px}
@@ -168,12 +162,14 @@
 </head>
 <body>
 
+  <!-- Service area banner -->
   <div class="notice">
     Pilot for teens in <strong>Northern Virginia</strong> — ZIPs:
     <span class="zips">20169, 20155, 20136, 20143, 20109</span>. After-school & weekend availability.
     <a href="#apply">Apply now</a>
   </div>
 
+  <!-- Header -->
   <header class="logo-bar" role="banner" aria-label="UpNext Works">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
       <svg class="menu-ico" viewBox="0 0 48 36" aria-hidden="true">
@@ -186,6 +182,7 @@
     </div>
   </header>
 
+  <!-- Dropdown menu -->
   <div class="menu-panel" id="menuPanel" role="menu" aria-label="Site navigation">
     <nav class="menu-list">
       <a href="/" role="menuitem">Home</a>
@@ -196,17 +193,20 @@
   </div>
   <div class="backdrop" id="menuBackdrop" hidden></div>
 
+  <!-- Page -->
   <main class="wrap">
-    <p class="eyebrow">For Taskers (14–17)</p>
+    <p class="eyebrow">FOR TASKERS (14–17)</p>
     <h1 class="title">Earn safe, local gigs after school & weekends</h1>
     <p class="sub">Build skills, help neighbors, and earn money with tasks like yardwork, snow shoveling, pet care, and more — with parental consent and clear safety guidelines.</p>
 
+    <!-- Benefits -->
     <ul class="list" aria-label="Why join">
       <li><span class="check">✓</span> Flexible, short tasks that fit around school</li>
       <li><span class="check">✓</span> Learn responsibility, communication & reliability</li>
       <li><span class="check">✓</span> References for jobs, college, and community service</li>
     </ul>
 
+    <!-- Tasks -->
     <section class="tasks" aria-label="Popular tasks">
       <div class="task"><span class="ico">🪴</span><span>Yardwork</span></div>
       <div class="task"><span class="ico">❄️</span><span>Snow</span></div>
@@ -216,12 +216,14 @@
       <div class="task"><span class="ico">📚</span><span>Tutoring</span></div>
     </section>
 
+    <!-- How it works -->
     <section class="steps" aria-label="How it works">
       <div class="card"><h3>1) Apply to the pilot</h3><p>You and a parent/guardian submit your info so we can verify age and consent.</p></div>
       <div class="card"><h3>2) Get matched</h3><p>We match you with nearby tasks that fit your schedule and restrictions.</p></div>
       <div class="card"><h3>3) Do the task, get paid</h3><p>Follow the safety checklist. Pilot payments may be cash or simple digital options.</p></div>
     </section>
 
+    <!-- Requirements -->
     <section aria-label="Requirements" class="card">
       <h3>Pilot requirements</h3>
       <ul class="list">
@@ -232,16 +234,19 @@
       </ul>
     </section>
 
+    <!-- CTAs -->
     <div class="ctas" id="apply">
       <a class="btn btn-primary" href="#signup">Apply to the pilot</a>
       <a class="btn btn-secondary" href="#parents">Parent/Guardian start</a>
     </div>
 
+    <!-- Parent section -->
     <section id="parents" class="card" aria-label="Parent information">
       <h3>For parents/guardians</h3>
       <p>UpNext Works is designed with oversight in mind. You’ll review tasks, confirm availability, and help handle transportation and safety at the job site. We’ll share simple guidance on boundaries and what to expect.</p>
     </section>
 
+    <!-- FAQ -->
     <section id="faq" class="faq" aria-label="Tasker FAQ">
       <details><summary>Do I need a work permit?</summary><p>In Virginia, teens 14–15 typically need a work permit; 16–17 generally do not. We’ll guide you during onboarding based on the task and your age.</p></details>
       <details><summary>How many hours can I work?</summary><p>Pilot tasks are short and scheduled after school or on weekends. Actual limits depend on age and school status; we adhere to Virginia youth-labor rules.</p></details>
@@ -249,6 +254,7 @@
       <details><summary>What if a task seems unsafe?</summary><p>You can decline any task. We encourage you to call your parent/guardian and UpNext staff if anything feels off.</p></details>
     </section>
 
+    <!-- Apply / Waitlist (Formspree) -->
     <section class="signup" aria-label="Apply to the pilot" id="signup">
       <h2>Apply / join the pilot waitlist</h2>
       <form id="fs-form" action="https://formspree.io/f/xjkjbvdv" method="POST">
@@ -262,12 +268,58 @@
     </section>
   </main>
 
+  <!-- JS -->
   <script>
+    // Hamburger dropdown behavior (fixed: fully wired)
     (function(){
-      const btn=document.getElementById('menuBtn');
-      const panel=document.getElementById('menuPanel');
-      const backdrop=document.getElementById('menuBackdrop');
-      const open=()=>{panel.classList.add('open');backdrop.hidden=false;backdrop.classList.add('show');btn.setAttribute('aria-expanded','true');};
-      const close=()=>{panel.classList.remove('open');backdrop.classList.remove('show');setTimeout(()=>{backdrop.hidden=true},180);btn.setAttribute('aria-expanded','false');};
-      btn.addEventListener('click',()=>panel.classList.contains('open')?close():open());
-      backdrop.add
+      const btn = document.getElementById('menuBtn');
+      const panel = document.getElementById('menuPanel');
+      const backdrop = document.getElementById('menuBackdrop');
+
+      function open() {
+        panel.classList.add('open');
+        backdrop.hidden = false;
+        backdrop.classList.add('show');
+        btn.setAttribute('aria-expanded','true');
+      }
+      function close() {
+        panel.classList.remove('open');
+        backdrop.classList.remove('show');
+        setTimeout(()=>{ backdrop.hidden = true; }, 180);
+        btn.setAttribute('aria-expanded','false');
+      }
+      btn.addEventListener('click', () =>
+        panel.classList.contains('open') ? close() : open()
+      );
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && panel.classList.contains('open')) close();
+      });
+      panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    })();
+
+    // Formspree inline success
+    (function () {
+      const form = document.getElementById('fs-form');
+      const btn  = document.getElementById('fs-btn');
+      const ok   = document.getElementById('fs-success');
+      if (!form) return;
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        btn.disabled = true; btn.textContent = 'Sending…';
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form)
+          });
+          if (res.ok) { form.reset(); ok.style.display = 'block'; btn.textContent = 'Sent ✓'; }
+          else { btn.textContent = 'Try again'; btn.disabled = false; }
+        } catch {
+          btn.textContent = 'Try again'; btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
