@@ -26,26 +26,19 @@
       margin:0; font-family:var(--font);
       color:#0c2217; background:var(--cream);
       -webkit-font-smoothing:antialiased;
-    }
 
-    /* === BACKGROUND IMAGE (scrolls with content) === */
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -2;
+      /* === BACKGROUND IMAGE (scrolls with content) === */
       background-image: url("/images/about.png");
       background-repeat: no-repeat;
       background-size: cover;
-      background-position: center 190px;
-      opacity: 1;
-      filter: brightness(.96) saturate(1.02) blur(.3px);
+      background-position: center 190px; /* adjust to taste */
+      background-attachment: scroll;     /* ensure it scrolls */
     }
 
-    /* === DARK SCRIM FOR LEGIBILITY === */
+    /* === DARK SCRIM FOR LEGIBILITY (covers viewport; no white gap) === */
     body::after {
       content: "";
-      position: absolute;
+      position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: -1;
       background: linear-gradient(
@@ -136,7 +129,6 @@
     .btn-primary{background:var(--forest);color:#fff;box-shadow:var(--shadow-md)}
     .btn-secondary{background:#fff;color:var(--forest-ink);border-color:var(--line)}
     .btn-tertiary{background:var(--gold);color:var(--forest);box-shadow:var(--shadow-md)}
-
   </style>
 </head>
 <body>
