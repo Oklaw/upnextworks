@@ -24,21 +24,24 @@
       margin:0;font-family:var(--font);color:var(--forest-ink);background:var(--cream);-webkit-font-smoothing:antialiased;
     }
 
-    /* === Background photo (same method/feel as landing) === */
+    /* === Background photo (highly visible, like home page) === */
     body::before{
       content:"";
       position:fixed; inset:0; z-index:-1;
-      background-image: url("/images/tasker.PNG");
+      background-image: url("/images/tasker.PNG");           /* make sure name/case matches */
       background-size: cover; background-position: center;
-      /* image visibility */
-      opacity:.72;                      /* <-- matches landing opacity */
+      opacity:.88;                                           /* << more visible image */
       filter: brightness(.92) saturate(1.05) blur(1.5px);
     }
-    /* soft top-to-bottom vignette to keep headings readable on light photos */
+    /* gentle tint to keep headings readable on very light areas */
     body::after{
       content:"";
       position:fixed; inset:0; z-index:-1;
-      background: linear-gradient(180deg, rgba(250,248,242,.28) 0%, rgba(250,248,242,.50) 35%, rgba(250,248,242,.60) 70%, rgba(250,248,242,.66) 100%);
+      background: linear-gradient(180deg,
+        rgba(250,248,242,.16) 0%,
+        rgba(250,248,242,.24) 35%,
+        rgba(250,248,242,.28) 70%,
+        rgba(250,248,242,.32) 100%);
       pointer-events:none;
     }
 
@@ -82,11 +85,11 @@
     .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.32);opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:19}
     .backdrop.show{opacity:1;pointer-events:auto}
 
-    /* Page shell — same translucent card feel as landing */
+    /* Page shell — MORE transparent */
     .wrap{
       width:100%;max-width:460px;margin:0 auto;padding:var(--space-8) var(--space-4);
-      background: rgba(255,255,255,.94);        /* <-- same .94 card opacity */
-      backdrop-filter: saturate(1.1) blur(1px);
+      background: rgba(255,255,255,.80);            /* << lowered from .94 */
+      backdrop-filter: saturate(1.05) blur(1px);
       border-radius: 0 0 var(--radius-sm) var(--radius-sm);
       box-shadow: var(--shadow-sm);
     }
@@ -121,9 +124,9 @@
     .btn-primary{background:#143D2A;color:#fff;box-shadow:var(--shadow-md)}
     .btn-secondary{background:#fff;color:#224E3B;border-color:var(--line)}
 
-    /* Signup (Formspree) */
+    /* Signup (more transparent to match wrap) */
     .signup{
-      background:rgba(247,243,234,.94);         /* lightly translucent to match card vibe */
+      background:rgba(247,243,234,.82);           /* << lowered from ~.94 */
       padding:2rem 1rem 2.25rem;text-align:center;border-top:1px solid var(--line);
       border-radius:0 0 var(--radius-sm) var(--radius-sm);margin-top:var(--space-6)
     }
