@@ -21,6 +21,20 @@
     html,body{height:100%}
     body{margin:0;font-family:var(--font);color:var(--forest-ink);background:var(--cream);-webkit-font-smoothing:antialiased}
 
+    /* Hero background */
+    .hero-bg{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:420px;
+      background:
+        linear-gradient(rgba(247,243,234,0.85), rgba(247,243,234,0.85)),
+        url("images/Raking.PNG") center/cover no-repeat;
+      z-index:-1;
+      border-bottom:1px solid rgba(0,0,0,0.08);
+    }
+
     /* Banner */
     .notice{background:#143D2A;color:#fff;text-align:center;padding:.65rem .9rem;font-size:.98rem}
     .notice a{color:#FFD66B;text-decoration:underline}
@@ -105,6 +119,9 @@
   </style>
 </head>
 <body>
+
+  <!-- Background image wrapper -->
+  <div class="hero-bg"></div>
 
   <!-- Service area banner -->
   <div class="notice">
