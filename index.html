@@ -20,50 +20,36 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:var(--font);
-      color:var(--forest-ink);
-      background:transparent;
+      margin:0;font-family:var(--font);color:var(--forest-ink);background:var(--cream);
       -webkit-font-smoothing:antialiased;
-      position:relative;
     }
 
-    /* ---- Background image behind everything ---- */
+    /* ===== Background photo (fixed behind everything) ===== */
     body::before{
       content:"";
-      position:fixed;
-      inset:0;
-      background:url('images/Raking.PNG') center / cover no-repeat;
-      opacity:.28;                 /* fade the photo */
-      z-index:0;                   /* behind content */
-      pointer-events:none;
-    }
-    /* soft cream tint so text pops */
-    body::after{
-      content:"";
-      position:fixed;
-      inset:0;
-      background:rgba(247,243,234,.70);
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(to bottom, rgba(20,61,42,.55), rgba(20,61,42,.25) 30%, rgba(20,61,42,.15) 100%),
+        url("/images/Raking.PNG"); /* CASE MATCHES YOUR FILE */
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
       z-index:0;
       pointer-events:none;
     }
-    /* Ensure real content sits above bg/tint */
-    .notice, .logo-bar, .wrap, .menu-panel, .backdrop{
-      position:relative; z-index:1;
-    }
 
     /* Banner */
-    .notice{background:#143D2A;color:#fff;text-align:center;padding:.65rem .9rem;font-size:.98rem}
+    .notice{background:#143D2A;color:#fff;text-align:center;padding:.65rem .9rem;font-size:.98rem; position:relative; z-index:2}
     .notice a{color:#FFD66B;text-decoration:underline}
     .notice .zips{font-weight:700}
 
     /* Logo bar */
     .logo-bar{
-      position:relative;
-      background:var(--forest);
-      color:#fff;
+      position:relative; z-index:2;
+      background:var(--forest); color:#fff;
       display:flex; align-items:center; justify-content:center;
       height:108px; padding:10px 16px;
+      box-shadow:0 8px 24px rgba(0,0,0,.18);
     }
     .brand{display:flex; flex-direction:column; align-items:center; line-height:1}
     .brand .upnext{font-weight:900;font-size:40px;letter-spacing:-.01em}
@@ -82,8 +68,8 @@
 
     /* Dropdown panel + backdrop */
     .menu-panel{
-      position:fixed; left:0; right:0;
-      top:160px; background:#fff; border-bottom:1px solid var(--line);
+      position:fixed; left:0; right:0; top:160px;
+      background:#fff; border-bottom:1px solid var(--line);
       box-shadow:0 10px 24px rgba(0,0,0,.12);
       transform:translateY(-12px); opacity:0; pointer-events:none;
       transition:transform .18s ease, opacity .18s ease; z-index:20;
@@ -96,13 +82,15 @@
     .backdrop{position:fixed; inset:0; background:rgba(0,0,0,.32); opacity:0; pointer-events:none; transition:opacity .18s ease; z-index:19;}
     .backdrop.show{opacity:1; pointer-events:auto;}
 
-    /* Main content */
+    /* Main content card sits above background */
     .wrap{
-      width:100%; max-width:460px; margin:0 auto;
+      position:relative; z-index:1;
+      width:100%;max-width:460px;margin:0 auto;
       padding:var(--space-8) var(--space-4);
-      background:rgba(255,255,255,.92);
-      border-radius:var(--radius-sm);
-      box-shadow:var(--shadow-sm);
+      background:rgba(255,255,255,.94);   /* translucent so photo shows through */
+      backdrop-filter:saturate(1.05) blur(1px);
+      border-radius:0 0 var(--radius-sm) var(--radius-sm);
+      box-shadow:0 12px 30px rgba(0,0,0,.12);
     }
     .title{margin:0 0 var(--space-6);font-weight:800;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14;color:var(--forest-ink)}
 
