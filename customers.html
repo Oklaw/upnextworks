@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,7 +10,8 @@
 
   <style>
     :root{
-      --forest:#143D2A; --forest-ink:#224E3B; --cream:#F7F3EA; --offwhite:#FAF8F2;
+      --forest:#003924;
+      --forest-ink:#224E3B; --cream:#F7F3EA; --offwhite:#FAF8F2;
       --gold:#FFD66B;
       --line:rgba(0,0,0,.15);
       --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
@@ -28,56 +28,62 @@
       -webkit-font-smoothing:antialiased;
     }
 
-    /* Background image (customers hero) */
+    /* Background */
     body::before{
       content:""; position:fixed; inset:0; z-index:-2;
       background:url("/images/customer.PNG") center/cover no-repeat;
       opacity:1;
       filter:brightness(.96) saturate(1.02) blur(.3px);
     }
-    /* Dark scrim for legibility */
     body::after{
       content:""; position:fixed; inset:0; z-index:-1;
       background:
         linear-gradient(180deg,
-          rgba(20,61,42,.32) 0px,
-          rgba(20,61,42,.26) 280px,
+          rgba(0,57,36,.32) 0px,
+          rgba(0,57,36,.26) 280px,
           rgba(247,243,234,.18) 60%,
           rgba(247,243,234,.22) 100%);
       pointer-events:none;
     }
 
-    /* Banner */
+    /* Banner (matches forest logo background) */
     .notice{
-      background:#143D2A;color:#fff;text-align:center;
-      padding:.65rem .9rem;font-size:.98rem;position:relative;z-index:2;
+      background:var(--forest); color:#fff; text-align:center;
+      padding:.65rem .9rem; font-size:.98rem; position:relative; z-index:2;
     }
     .notice a{color:var(--gold);text-decoration:underline}
     .notice .zips{font-weight:700}
 
-    /* Header / Logo */
+    /* Header / logo bar */
     .logo-bar{
-      position:relative; z-index:2;
-      background:#143D2A; color:#fff;
+      position:relative;
+      background:var(--forest);
+      color:#fff;
       display:flex; align-items:center; justify-content:center;
-      height:108px; padding:10px 16px;
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
+      height:148px;
+      padding:10px 16px;
     }
-    .brand{display:flex;flex-direction:column;align-items:center;line-height:1; text-decoration:none; color:#fff}
-    .brand .upnext{font-weight:900;font-size:40px;letter-spacing:-.01em}
-    .brand .works{margin-top:8px;font-weight:900;font-size:18px;letter-spacing:.35em}
+    .brand{
+      display:flex; align-items:center; justify-content:center;
+      line-height:1; text-decoration:none; color:#fff;
+    }
+    .brand-logo{
+      height:150px; width:auto; display:block; filter:none;
+    }
+    @media (min-width:768px){ .brand-logo{height:180px;} }
 
     /* Hamburger */
     .menu-btn{
       position:absolute; left:14px; top:50%; transform:translateY(-50%);
-      width:44px; height:44px; border-radius:999px; cursor:pointer;
-      border:1px solid rgba(255,255,255,.25); background:transparent; display:grid; place-items:center;
+      width:44px; height:44px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.25);
+      background:transparent; display:grid; place-items:center; cursor:pointer;
     }
     .menu-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
     .menu-ico{width:22px; height:18px; display:block}
     .menu-ico path{stroke:#fff; stroke-width:6; stroke-linecap:round; fill:none}
 
-    /* Dropdown + backdrop */
+    /* Dropdown menu */
     .menu-panel{
       position:fixed; left:0; right:0; top:160px;
       background:#fff; border-bottom:1px solid var(--line);
@@ -87,35 +93,19 @@
     }
     .menu-panel.open{transform:none; opacity:1; pointer-events:auto;}
     .menu-list{list-style:none; margin:0; padding:6px 0;}
-
-    /* Uniform Tasker-style links in burger */
     .menu-list a{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      padding:16px 18px;
-      text-decoration:none;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      font-weight:800; font-size:.98rem;
-      color:var(--forest-ink);
-      position:relative;
+      display:block; padding:14px 18px;
+      text-decoration:none; color:var(--forest-ink);
+      font-weight:800; font-size:1.05rem;
     }
     .menu-list a + a{border-top:1px solid var(--line)}
-    .menu-list a:hover{background:var(--offwhite)}
-    .menu-list a:focus-visible{outline:2px solid var(--gold); outline-offset:-2px}
-    .menu-list a::after{
-      content:"";
-      width:16px; height:16px; flex:0 0 16px;
-      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23000" d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.7 6.7a1 1 0 0 0-1.41.01Z"/></svg>') center/contain no-repeat;
-      background:#4a5b54;
-    }
-
     .backdrop{position:fixed; inset:0; background:rgba(0,0,0,.32); opacity:0; pointer-events:none; transition:opacity .18s ease; z-index:19;}
     .backdrop.show{opacity:1; pointer-events:auto;}
 
     /* Page container */
     .wrap{
-      width:100%; max-width:460px; margin:0 auto; padding:var(--space-8) var(--space-4);
+      width:100%; max-width:460px; margin:0 auto;
+      padding:var(--space-8) var(--space-4);
       background:rgba(255,255,255,.40);
       backdrop-filter:saturate(1.05) blur(.6px);
       border-radius:0 0 var(--radius-sm) var(--radius-sm);
@@ -123,42 +113,31 @@
       color:#0d2619;
     }
 
-    /* Typography */
     h1,h2,h3,.title{color:#092014;text-shadow:0 2px 4px rgba(0,0,0,.28)}
     p,li{color:#0f2a1b;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+
     .eyebrow{font-weight:900;letter-spacing:.08em;font-size:.78rem;color:#e9f4ee;text-transform:uppercase;margin:0 0 .6rem;text-shadow:0 1px 2px rgba(0,0,0,.35)}
     .title{margin:.25rem 0 var(--space-4);font-weight:900;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
     .sub{margin:0 0 var(--space-6);color:#10311f}
 
-    /* Task grid (icons) */
+    /* Task grid */
     .tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:var(--space-6) 0}
     .task{border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;background:#fff}
     .task .ico{font-size:22px;display:block;margin-bottom:6px}
     .task span{font-weight:800;color:#2b453a;text-shadow:none}
 
-    /* Cards / lists */
     .card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff;box-shadow:var(--shadow-sm)}
     .list{margin:0;padding:0;list-style:none}
     .list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
     .check{color:#1E3C2A;font-weight:900}
 
-    /* Extra spacing between Why and How sections */
-    #why { margin-bottom: 22px; }
-
-    /* CTAs */
     .ctas{display:grid;gap:var(--space-4);margin:var(--space-6) 0}
-    .btn{
-      height:56px;border-radius:var(--radius-lg);font-weight:900;font-size:18px;
-      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid transparent;cursor:pointer;
-      transition:transform .06s ease, filter .15s ease;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn-primary{background:#143D2A;color:#fff;box-shadow:var(--shadow-md)}
-    .btn-secondary{background:#fff;color:#224E3B;border-color:var(--line)}
+    .btn{height:56px;border-radius:var(--radius-lg);font-weight:900;font-size:18px;
+      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid transparent;cursor:pointer;}
+    .btn-primary{background:var(--forest);color:#fff;box-shadow:var(--shadow-md)}
+    .btn-secondary{background:#fff;color:var(--forest-ink);border-color:var(--line)}
     .btn-tertiary{background:var(--gold);color:var(--forest);box-shadow:var(--shadow-md)}
-    .btn-tertiary:hover{filter:brightness(.95)}
 
-    /* Signup */
     .signup{
       background:rgba(247,243,234,.50);
       padding:2rem 1rem 2.25rem;text-align:center;border-top:1px solid var(--line);
@@ -167,59 +146,44 @@
     .signup h2{font-size:1.35rem;margin:0 0 1rem;font-weight:900;color:#0F291C;text-shadow:0 2px 4px rgba(0,0,0,.25)}
     .signup form{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;width:100%}
     .signup input[type="email"]{padding:12px 16px;border-radius:1000px;border:1px solid var(--line);width:70%;max-width:320px;font-size:1rem;background:#fff}
-    .signup button{background:#143D2A;color:#fff;border:none;border-radius:1000px;padding:12px 20px;font-weight:900;cursor:pointer;min-width:130px}
+    .signup button{background:var(--forest);color:#fff;border:none;border-radius:1000px;padding:12px 20px;font-weight:900;cursor:pointer;min-width:130px}
     .success{display:none;color:#0a6c3b;margin-top:.75rem;font-weight:700}
-
-    /* Visually hidden helper for labels */
-    .sr-only{
-      position:absolute!important;
-      width:1px;height:1px;padding:0;margin:-1px;
-      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Banner -->
   <div class="notice">
-    Now piloting in <strong>Northern Virginia</strong> — currently serving ZIPs:
+    Pilot for families in <strong>Northern Virginia</strong> — ZIPs:
     <span class="zips">20169, 20155, 20136, 20143, 20109</span>.
     <a href="#signup">Join the waitlist</a>
   </div>
 
-  <!-- Header -->
   <header class="logo-bar" role="banner" aria-label="UpNext Works">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
       <svg class="menu-ico" viewBox="0 0 48 36" aria-hidden="true">
         <path d="M6 6 H42 M6 18 H42 M6 30 H42"></path>
       </svg>
     </button>
-    <!-- Logo now links to home -->
     <a class="brand" href="/index.html" aria-label="UpNext Works Home">
-      <span class="upnext">UpNext</span>
-      <span class="works">WORKS</span>
+      <img class="brand-logo" src="/images/logo.png" alt="UpNext Works logo" />
     </a>
   </header>
 
-  <!-- Burger dropdown -->
   <div class="menu-panel" id="menuPanel" role="menu" aria-label="Site navigation">
     <nav class="menu-list">
       <a href="/index.html" role="menuitem">Home</a>
-      <a href="/about.html" role="menuitem">About</a>
-      <a href="/parents.html" role="menuitem">For Parents/Guardians</a>
       <a href="/taskers.html" role="menuitem">For Taskers</a>
       <a href="/customers.html" role="menuitem">For Customers</a>
+      <a href="/parents.html" role="menuitem">For Parents</a>
     </nav>
   </div>
   <div class="backdrop" id="menuBackdrop" hidden></div>
 
-  <!-- Page -->
   <main class="wrap">
     <p class="eyebrow">FOR CUSTOMERS</p>
     <h1 class="title">Book trusted teen help for home & community tasks</h1>
     <p class="sub">Safe, local help for yardwork, snow shoveling, pet care, babysitting, cleaning, and tutoring — with parental consent and clear guidelines.</p>
 
-    <!-- Popular task types -->
     <section class="tasks" aria-label="Popular tasks">
       <div class="task"><span class="ico">🪴</span><span>Yardwork</span></div>
       <div class="task"><span class="ico">❄️</span><span>Snow</span></div>
@@ -229,18 +193,16 @@
       <div class="task"><span class="ico">📚</span><span>Tutoring</span></div>
     </section>
 
-    <!-- Why UpNext -->
-    <section id="why" class="card" aria-label="Why UpNext">
+    <section class="card" aria-label="Why UpNext">
       <h3>Why choose UpNext</h3>
       <ul class="list">
         <li><span class="check">✓</span> Verified teen taskers with parent/guardian oversight</li>
         <li><span class="check">✓</span> Clear safety guidelines matched to age-appropriate tasks</li>
         <li><span class="check">✓</span> Local, flexible help that supports teens’ growth</li>
-        <li><span class="check">✓</span> Secure, no-hassle in-app payments once the task is complete</li>
+        <li><span class="check">✓</span> Secure, no-hassle payments after task completion</li>
       </ul>
     </section>
 
-    <!-- How it works for customers -->
     <section class="card" aria-label="How it works">
       <h3>How it works</h3>
       <ul class="list">
@@ -250,19 +212,16 @@
       </ul>
     </section>
 
-    <!-- CTAs -->
     <div class="ctas" id="apply">
       <a class="btn btn-primary" href="#signup">Join the pilot waitlist</a>
       <a class="btn btn-secondary" href="/taskers.html">See how teens participate</a>
       <a class="btn btn-tertiary" href="/parents.html">Info for parents/guardians</a>
     </div>
 
-    <!-- Signup -->
     <section class="signup" aria-label="Join the pilot" id="signup">
       <h2>Get early access</h2>
       <form id="fs-form" action="https://formspree.io/f/xjkjbvdv" method="POST">
-        <label class="sr-only" for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="Your email" required />
+        <input id="email" name="email" type="email" placeholder="Enter your email" aria-label="Enter your email" required />
         <input type="hidden" name="role" value="customer" />
         <input type="hidden" name="source" value="customers-landing" />
         <button type="submit" id="fs-btn">Notify Me</button>
@@ -271,37 +230,32 @@
     </section>
   </main>
 
-  <!-- JS -->
   <script>
-    // Menu open/close
     (function(){
-      const btn = document.getElementById('menuBtn');
-      const panel = document.getElementById('menuPanel');
-      const backdrop = document.getElementById('menuBackdrop');
-      const open = () => { panel.classList.add('open'); backdrop.hidden=false; backdrop.classList.add('show'); btn.setAttribute('aria-expanded','true'); };
-      const close = () => { panel.classList.remove('open'); backdrop.classList.remove('show'); setTimeout(()=>{backdrop.hidden=true},180); btn.setAttribute('aria-expanded','false'); };
-      btn.addEventListener('click', () => panel.classList.contains('open') ? close() : open());
-      backdrop.addEventListener('click', close);
-      document.addEventListener('keydown', e => { if (e.key==='Escape' && panel.classList.contains('open')) close(); });
-      panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+      const btn=document.getElementById('menuBtn');
+      const panel=document.getElementById('menuPanel');
+      const backdrop=document.getElementById('menuBackdrop');
+      const open=()=>{panel.classList.add('open');backdrop.hidden=false;backdrop.classList.add('show');btn.setAttribute('aria-expanded','true');};
+      const close=()=>{panel.classList.remove('open');backdrop.classList.remove('show');setTimeout(()=>{backdrop.hidden=true},180);btn.setAttribute('aria-expanded','false');};
+      btn.addEventListener('click',()=>panel.classList.contains('open')?close():open());
+      backdrop.addEventListener('click',close);
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))close();});
+      panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
     })();
 
-    // Formspree inline success
-    (function () {
-      const form = document.getElementById('fs-form');
-      const btn  = document.getElementById('fs-btn');
-      const ok   = document.getElementById('fs-success');
-      if (!form) return;
-      form.addEventListener('submit', async function (e) {
+    (function(){
+      const form=document.getElementById('fs-form');
+      const btn=document.getElementById('fs-btn');
+      const ok=document.getElementById('fs-success');
+      if(!form)return;
+      form.addEventListener('submit',async function(e){
         e.preventDefault();
-        btn.disabled = true; btn.textContent = 'Sending…';
-        try {
-          const res = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });
-          if (res.ok) { form.reset(); ok.style.display = 'block'; btn.textContent = 'Sent ✓'; }
-          else { btn.textContent = 'Try again'; btn.disabled = false; }
-        } catch {
-          btn.textContent = 'Try again'; btn.disabled = false;
-        }
+        btn.disabled=true;btn.textContent='Sending…';
+        try{
+          const res=await fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});
+          if(res.ok){form.reset();ok.style.display='block';btn.textContent='Sent ✓';}
+          else{btn.textContent='Try again';btn.disabled=false;}
+        }catch{btn.textContent='Try again';btn.disabled=false;}
       });
     })();
   </script>
