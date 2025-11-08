@@ -4,16 +4,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — UpNext Works</title>
-  <meta name="description" content="UpNext Works connects families with verified teen taskers for safe, local, age-appropriate work — with parental oversight and built-in compliance." />
+  <title>UpNext Works</title>
+  <meta name="description" content="Book trusted teen help for home & community tasks. UpNext Works connects families with verified teen taskers." />
   <meta name="geo.region" content="US-VA">
   <meta name="geo.placename" content="Northern Virginia">
 
   <style>
     :root{
-      --forest:#003924;
-      --forest-ink:#224E3B;
-      --cream:#F7F3EA; --offwhite:#FAF8F2;
+      --forest:#003924; /* exact match with Taskers page */
+      --forest-ink:#224E3B; --cream:#F7F3EA; --offwhite:#FAF8F2;
       --gold:#FFD66B;
       --line:rgba(0,0,0,.15);
       --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
@@ -30,19 +29,26 @@
       -webkit-font-smoothing:antialiased;
     }
 
-    /* Background */
+    /* === BACKGROUND IMAGE (about.png) === */
     body::before{
       content:""; position:fixed; inset:0; z-index:-2;
-      background:url("/images/about.PNG") center/cover no-repeat;
-      opacity:1; filter:brightness(.96) saturate(1.02) blur(.3px);
+      background:url("/images/about.png") center/cover no-repeat;
+      opacity:1;
+      filter:brightness(.96) saturate(1.02) blur(.3px);
     }
+    /* === DARK SCRIM === */
     body::after{
       content:""; position:fixed; inset:0; z-index:-1;
-      background:linear-gradient(180deg, rgba(0,57,36,.32) 0px, rgba(0,57,36,.26) 280px, rgba(247,243,234,.18) 60%, rgba(247,243,234,.22) 100%);
+      background:
+        linear-gradient(180deg,
+          rgba(20,61,42,.32) 0px,
+          rgba(20,61,42,.26) 280px,
+          rgba(247,243,234,.18) 60%,
+          rgba(247,243,234,.22) 100%);
       pointer-events:none;
     }
 
-    /* Banner */
+    /* Banner (matches Taskers) */
     .notice{
       background:var(--forest); color:#fff; text-align:center;
       padding:.65rem .9rem; font-size:.98rem; position:relative; z-index:2;
@@ -50,140 +56,245 @@
     .notice a{color:var(--gold);text-decoration:underline}
     .notice .zips{font-weight:700}
 
-    /* Header / logo bar */
+    /* Logo bar (matches Taskers) */
     .logo-bar{
       position:relative;
       background:var(--forest);
       color:#fff;
       display:flex; align-items:center; justify-content:center;
-      height:148px;
+      height:148px; /* taller header for larger logo */
       padding:10px 16px;
     }
-    .brand{display:flex; align-items:center; justify-content:center; line-height:1; text-decoration:none; color:#fff;}
-    .brand-logo{height:150px; width:auto; display:block;}
-    @media (min-width:768px){ .brand-logo{height:180px;} }
+
+    /* Clickable brand with image logo */
+    .brand{
+      display:flex; align-items:center; justify-content:center;
+      line-height:1; text-decoration:none; color:#fff;
+    }
+    .brand-logo{
+      height:150px;  /* mobile/tablet */
+      width:auto; display:block; filter:none;
+    }
+    @media (min-width:768px){
+      .brand-logo{ height:180px; } /* desktop */
+    }
 
     /* Hamburger */
     .menu-btn{
       position:absolute; left:14px; top:50%; transform:translateY(-50%);
-      width:44px; height:44px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.25);
-      background:transparent; display:grid; place-items:center; cursor:pointer;
+      width:44px; height:44px; border-radius:999px; cursor:pointer;
+      border:1px solid rgba(255,255,255,.25); background:transparent; display:grid; place-items:center;
     }
+    .menu-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+    .menu-ico{width:22px; height:18px; display:block}
     .menu-ico path{stroke:#fff; stroke-width:6; stroke-linecap:round; fill:none}
 
-    /* Dropdown */
-    .menu-panel{position:fixed; left:0; right:0; top:160px; background:#fff; border-bottom:1px solid var(--line); box-shadow:0 10px 24px rgba(0,0,0,.12); transform:translateY(-12px); opacity:0; pointer-events:none; transition:transform .18s ease, opacity .18s ease; z-index:20;}
+    /* Dropdown panel + backdrop */
+    .menu-panel{
+      position:fixed; left:0; right:0; top:160px;
+      background:#fff; border-bottom:1px solid var(--line);
+      box-shadow:0 10px 24px rgba(0,0,0,.12);
+      transform:translateY(-12px); opacity:0; pointer-events:none;
+      transition:transform .18s ease, opacity .18s ease; z-index:20;
+    }
     .menu-panel.open{transform:none; opacity:1; pointer-events:auto;}
     .menu-list{list-style:none; margin:0; padding:6px 0;}
-    .menu-list a{display:block; padding:14px 18px; text-decoration:none; color:var(--forest-ink); font-weight:800; font-size:1.05rem;}
+
+    /* Uniform Tasker-style links */
+    .menu-list a{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:16px 18px;
+      text-decoration:none; text-transform:uppercase; letter-spacing:.04em;
+      font-weight:800; font-size:0.98rem; color:var(--forest-ink);
+      position:relative;
+    }
     .menu-list a + a{border-top:1px solid var(--line)}
+    .menu-list a:hover{background:var(--offwhite)}
+    .menu-list a:focus-visible{outline:2px solid var(--gold); outline-offset:-2px}
+    .menu-list a::after{
+      content:""; width:16px; height:16px; flex:0 0 16px;
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23000" d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.7 6.7a1 1 0 0 0-1.41.01Z"/></svg>') center/contain no-repeat;
+      background:#4a5b54;
+    }
+
     .backdrop{position:fixed; inset:0; background:rgba(0,0,0,.32); opacity:0; pointer-events:none; transition:opacity .18s ease; z-index:19;}
     .backdrop.show{opacity:1; pointer-events:auto;}
 
-    /* Page */
+    /* Main content overlay */
     .wrap{
-      width:100%; max-width:720px; margin:0 auto; padding:var(--space-8) var(--space-4);
-      background:rgba(255,255,255,.40); backdrop-filter:saturate(1.05) blur(.6px);
+      position:relative; z-index:1;
+      width:100%; max-width:460px; margin:0 auto;
+      padding:var(--space-8) var(--space-4);
+      background:rgba(255,255,255,.40);
+      backdrop-filter:saturate(1.05) blur(.6px);
       border-radius:0 0 var(--radius-sm) var(--radius-sm);
-      box-shadow:var(--shadow-sm); color:#0d2619;
+      box-shadow:var(--shadow-sm);
+      color:#0d2619;
     }
 
-    .title{margin:.25rem 0 var(--space-4);font-weight:900;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
-    .sub{margin:0 0 var(--space-6);color:#10311f}
+    h1,h2,h3,.title{color:#092014;text-shadow:0 2px 4px rgba(0,0,0,.28)}
+    p,li,label{color:#0f2a1b;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+    .title{margin:0 0 var(--space-6);font-weight:800;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
 
-    .card{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;box-shadow:var(--shadow-sm);margin-bottom:20px;}
-    .list{margin:0;padding:0;list-style:none}
-    .list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
-    .check{color:#1E3C2A;font-weight:900}
+    /* Search */
+    .search{display:flex;align-items:center;gap:8px;background:var(--offwhite);border:1px solid var(--line);border-radius:1000px;padding:14px 14px 14px 16px;box-shadow:var(--shadow-sm);margin-bottom:var(--space-6)}
+    .search input{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:#2A3A33;text-shadow:none}
+    .search button{display:inline-grid;place-items:center;background:var(--forest);color:#fff;width:54px;height:46px;border:none;border-radius:1000px;cursor:pointer}
 
-    /* Buttons (match index) */
-    .ctas{display:grid;gap:var(--space-4);margin:var(--space-6) 0}
-    .btn{height:56px;border-radius:var(--radius-lg);font-weight:900;font-size:18px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .06s ease, filter .15s ease;}
+    /* Tasks */
+    .tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:var(--space-6) 0}
+    .task-card{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+      height:112px;padding:14px 10px;gap:10px;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line); border-radius:20px;
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+      text-decoration:none;
+    }
+    .task-card .ico{font-size:28px; line-height:1}
+    .task-card .label{font-weight:900;font-size:20px;color:#1e3b2d}
+
+    /* Buttons */
+    .ctas{display:grid;gap:var(--space-4);margin-bottom:var(--space-6)}
+    .btn{height:56px;border-radius:var(--radius-lg);font-weight:900;font-size:18px;letter-spacing:.01em;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .06s ease, filter .15s ease;text-shadow:none}
     .btn:active{transform:translateY(1px)}
     .btn-primary{background:var(--forest);color:#fff;box-shadow:var(--shadow-md)}
     .btn-secondary{background:#fff;color:var(--forest-ink);border-color:var(--line)}
-    .btn-tertiary{background:var(--gold);color:var(--forest);box-shadow:var(--shadow-md)}
+    .btn-tertiary{background:var(--gold);color:var(--forest);box-shadow:var(--shadow-md);}
     .btn-tertiary:hover{filter:brightness(.95)}
+
+    /* Signup */
+    .signup{
+      background:rgba(247,243,234,.50);
+      padding:2rem 1rem 2.25rem;text-align:center;border-top:1px solid var(--line);
+      border-radius:0 0 var(--radius-sm) var(--radius-sm);margin-top:var(--space-6)
+    }
+    .signup h2{color:#0F291C;font-size:1.35rem;margin:0 0 1rem 0;font-weight:900;letter-spacing:-.01em;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+    .signup form{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;width:100%}
+    .signup input[type="email"]{padding:12px 16px;border-radius:1000px;border:1px solid var(--line);width:70%;max-width:320px;font-size:1rem;background:#fff}
+    .signup button{background:var(--forest);color:#fff;border:none;border-radius:1000px;padding:12px 20px;font-weight:900;cursor:pointer;min-width:130px}
+    .success{display:none !important}
+    .success.show{display:block !important}
   </style>
 </head>
 <body>
 
-  <!-- Banner -->
+  <!-- Service area banner -->
   <div class="notice">
-    Now piloting in <strong>Northern Virginia</strong> — ZIPs:
-    <span class="zips">20169, 20155, 20136, 20143, 20109</span>.
+    Pilot for teens in <strong>Northern Virginia</strong> — ZIPs:
+    <span class="zips">20169, 20155, 20136, 20143, 20109</span>. After-school & weekend availability.
     <a href="#signup">Join the waitlist</a>
   </div>
 
-  <!-- Header -->
+  <!-- Header / Logo -->
   <header class="logo-bar" role="banner" aria-label="UpNext Works">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
       <svg class="menu-ico" viewBox="0 0 48 36" aria-hidden="true">
         <path d="M6 6 H42 M6 18 H42 M6 30 H42"></path>
       </svg>
     </button>
+
+    <!-- Logo image link (matches Taskers) -->
     <a class="brand" href="/index.html" aria-label="UpNext Works Home">
       <img class="brand-logo" src="/images/logo.png" alt="UpNext Works logo" />
     </a>
   </header>
 
-  <!-- Dropdown -->
-  <div class="menu-panel" id="menuPanel">
+  <!-- Dropdown menu -->
+  <div class="menu-panel" id="menuPanel" role="menu" aria-label="Site navigation">
     <nav class="menu-list">
-      <a href="/index.html">Home</a>
-      <a href="/taskers.html">For Taskers</a>
-      <a href="/customers.html">For Customers</a>
-      <a href="/parents.html">For Parents/Guardians</a>
-      <a href="/about.html">About</a>
+      <a href="/index.html" role="menuitem">Home</a>
+      <a href="/about.html" role="menuitem">About</a>
+      <a href="/parents.html" role="menuitem">For Parents/Guardians</a>
+      <a href="/taskers.html" role="menuitem">For Taskers</a>
+      <a href="/customers.html" role="menuitem">For Customers</a>
     </nav>
   </div>
   <div class="backdrop" id="menuBackdrop" hidden></div>
 
-  <!-- Main -->
+  <!-- Main content -->
   <main class="wrap">
-    <h1 class="title">Why UpNext Works</h1>
-    <p class="sub">We’re building a safe, local way for families to get help — and for teens to gain real-world experience — with clear guardrails and oversight baked in.</p>
+    <h1 class="title">Book trusted teen<br/>help for home &amp; community tasks</h1>
 
-    <section class="card">
-      <h3>The need we’re filling</h3>
-      <ul class="list">
-        <li><span class="check">✓</span> Families need trustworthy, short-duration help for everyday home tasks.</li>
-        <li><span class="check">✓</span> Teens need safe, guided, flexible ways to earn and learn without risky gig platforms.</li>
-        <li><span class="check">✓</span> UpNext is the first to integrate safety, compliance, and parental consent end-to-end.</li>
-      </ul>
+    <!-- Search -->
+    <form class="search" role="search" action="/search" onsubmit="return false;">
+      <input id="q" name="q" type="search" placeholder="What do you need help with?" aria-label="What do you need help with?" />
+      <button type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M21 21l-4.3-4.3m1.3-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <!-- Tasks -->
+    <section class="tasks" aria-label="Popular tasks">
+      <a href="/taskers.html#yardwork" class="task-card"><span class="ico">🪴</span><span class="label">Yardwork</span></a>
+      <a href="/taskers.html#snow" class="task-card"><span class="ico">❄️</span><span class="label">Snow</span></a>
+      <a href="/taskers.html#petcare" class="task-card"><span class="ico">🐾</span><span class="label">Pet Care</span></a>
+      <a href="/taskers.html#cleaning" class="task-card"><span class="ico">🧹</span><span class="label">Cleaning</span></a>
+      <a href="/taskers.html#babysitting" class="task-card"><span class="ico">🧸</span><span class="label">Babysitting</span></a>
+      <a href="/taskers.html#tutoring" class="task-card"><span class="ico">📚</span><span class="label">Tutoring</span></a>
     </section>
 
-    <section class="card">
-      <h3>Safety and compliance, by design</h3>
-      <ul class="list">
-        <li><span class="check">✓</span> Verified teen and parent/guardian accounts.</li>
-        <li><span class="check">✓</span> Age-appropriate task matching and hour limits built into the app.</li>
-        <li><span class="check">✓</span> Secure communication, safety checklists, and task verification.</li>
-        <li><span class="check">✓</span> Automatic adherence to youth-labor laws — no guessing required.</li>
-      </ul>
-    </section>
-
-    <!-- CTAs (match index) -->
-    <div class="ctas" role="group" aria-label="Sign up options">
+    <!-- CTAs -->
+    <div class="ctas" role="group" aria-label="Sign up">
       <a class="btn btn-primary" href="/taskers.html">I'm a Tasker</a>
       <a class="btn btn-secondary" href="/customers.html">I'm a Customer</a>
       <a class="btn btn-tertiary" href="/parents.html">I'm a Parent/Guardian</a>
     </div>
+
+    <!-- Formspree signup -->
+    <section id="signup" class="signup" aria-label="Early access signup">
+      <h2>Sign up for early access</h2>
+      <form id="fs-form" action="https://formspree.io/f/xjkjbvdv" method="POST">
+        <input id="email" name="email" type="email" placeholder="Enter your email" aria-label="Enter your email" required />
+        <input type="hidden" name="source" value="upnextworks.org-landing" />
+        <button type="submit" id="fs-btn">Notify Me</button>
+      </form>
+      <div class="success" id="fs-success" hidden>Thanks! You’re on the list 🎉</div>
+    </section>
   </main>
 
   <!-- JS -->
   <script>
+    // Menu (same behavior as Taskers)
     (function(){
-      const btn=document.getElementById('menuBtn');
-      const panel=document.getElementById('menuPanel');
-      const backdrop=document.getElementById('menuBackdrop');
-      const open=()=>{panel.classList.add('open');backdrop.hidden=false;backdrop.classList.add('show');btn.setAttribute('aria-expanded','true');};
-      const close=()=>{panel.classList.remove('open');backdrop.classList.remove('show');setTimeout(()=>{backdrop.hidden=true},180);btn.setAttribute('aria-expanded','false');};
-      btn.addEventListener('click',()=>panel.classList.contains('open')?close():open());
-      backdrop.addEventListener('click',close);
-      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))close();});
-      panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+      const btn = document.getElementById('menuBtn');
+      const panel = document.getElementById('menuPanel');
+      const backdrop = document.getElementById('menuBackdrop');
+      const open = () => { panel.classList.add('open'); backdrop.hidden=false; backdrop.classList.add('show'); btn.setAttribute('aria-expanded','true'); };
+      const close = () => { panel.classList.remove('open'); backdrop.classList.remove('show'); setTimeout(()=>{backdrop.hidden=true},180); btn.setAttribute('aria-expanded','false'); };
+      btn.addEventListener('click', () => panel.classList.contains('open') ? close() : open());
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', e => { if (e.key==='Escape' && panel.classList.contains('open')) close(); });
+      panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    })();
+
+    // Formspree success visibility
+    (function () {
+      const form = document.getElementById('fs-form');
+      const btn  = document.getElementById('fs-btn');
+      const ok   = document.getElementById('fs-success');
+      if (!form) return;
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        btn.disabled = true; btn.textContent = 'Sending…';
+        try {
+          const res = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });
+          if (res.ok) {
+            form.reset();
+            ok.hidden = false; ok.classList.add('show');
+            btn.textContent = 'Sent ✓';
+          } else {
+            ok.hidden = true; ok.classList.remove('show');
+            btn.textContent = 'Try again'; btn.disabled = false;
+          }
+        } catch {
+          ok.hidden = true; ok.classList.remove('show');
+          btn.textContent = 'Try again'; btn.disabled = false;
+        }
+      });
     })();
   </script>
 </body>
