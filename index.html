@@ -106,7 +106,6 @@
     /* Stronger text contrast (match Taskers) */
     h1,h2,h3,.title{color:#092014;text-shadow:0 2px 4px rgba(0,0,0,.28)}
     p,li,label{color:#0f2a1b;text-shadow:0 1px 2px rgba(0,0,0,.18)}
-
     .title{margin:0 0 var(--space-6);font-weight:800;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
 
     /* Search */
@@ -114,11 +113,18 @@
     .search input{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:#2A3A33;text-shadow:none}
     .search button{display:inline-grid;place-items:center;background:var(--forest);color:#fff;width:54px;height:46px;border:none;border-radius:1000px;cursor:pointer}
 
-    /* Categories */
-    .tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:var(--space-4);margin-bottom:var(--space-4);text-align:center}
-    .tab{padding:10px 6px;background:transparent;border:none;color:#4A5B54;font-weight:700;border-bottom:2px solid transparent;cursor:pointer;text-shadow:none}
-    .tab .ico{display:block;font-size:22px;margin-bottom:6px}
-    .tab.active{color:var(--forest-ink);border-bottom-color:var(--forest-ink)}
+    /* ====== TASK CARDS (same style as Taskers page) ====== */
+    .tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:var(--space-6) 0}
+    .task-card{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+      height:112px;padding:14px 10px;gap:10px;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line); border-radius:20px;
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+      text-decoration:none;
+    }
+    .task-card .ico{font-size:28px; line-height:1}
+    .task-card .label{font-weight:900;font-size:20px;color:#1e3b2d}
 
     /* CTAs */
     .ctas{display:grid;gap:var(--space-4);margin-bottom:var(--space-6)}
@@ -126,10 +132,6 @@
     .btn:active{transform:translateY(1px)}
     .btn-primary{background:var(--forest);color:#fff;box-shadow:var(--shadow-md)}
     .btn-secondary{background:#fff;color:var(--forest-ink);border-color:var(--line)}
-
-    /* Checklist */
-    .list{margin:0;padding:0;list-style:none}
-    .list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:16px}
 
     /* Signup */
     .signup{
@@ -196,22 +198,22 @@
       </button>
     </form>
 
-    <!-- Categories -->
-    <nav class="tabs" aria-label="Categories">
-      <button class="tab active" type="button"><span class="ico">🪴</span>Yardwork</button>
-      <button class="tab" type="button"><span class="ico">❄️</span>Snow</button>
-      <button class="tab" type="button"><span class="ico">🐾</span>Pet Care</button>
-      <button class="tab" type="button"><span class="ico">🧹</span>Cleaning</button>
-      <button class="tab" type="button"><span class="ico">🧸</span>Babysitting</button>
-      <button class="tab" type="button"><span class="ico">📚</span>Tutoring</button>
-    </nav>
+    <!-- Tasks (replaces small emoji tabs) -->
+    <section class="tasks" aria-label="Popular tasks">
+      <a href="/taskers.html#yardwork" class="task-card"><span class="ico">🪴</span><span class="label">Yardwork</span></a>
+      <a href="/taskers.html#snow" class="task-card"><span class="ico">❄️</span><span class="label">Snow</span></a>
+      <a href="/taskers.html#petcare" class="task-card"><span class="ico">🐾</span><span class="label">Pet Care</span></a>
+      <a href="/taskers.html#cleaning" class="task-card"><span class="ico">🧹</span><span class="label">Cleaning</span></a>
+      <a href="/taskers.html#babysitting" class="task-card"><span class="ico">🧸</span><span class="label">Babysitting</span></a>
+      <a href="/taskers.html#tutoring" class="task-card"><span class="ico">📚</span><span class="label">Tutoring</span></a>
+    </section>
 
     <!-- CTAs -->
     <div class="ctas" role="group" aria-label="Sign up">
       <a class="btn btn-primary" href="/taskers.html">I'm a Tasker</a>
       <a class="btn btn-secondary" href="/customers.html">I'm a Customer</a>
     </div>
-    
+
     <!-- Formspree signup -->
     <section id="signup" class="signup" aria-label="Early access signup">
       <h2>Sign up for early access</h2>
