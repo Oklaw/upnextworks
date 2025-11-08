@@ -103,20 +103,41 @@
     .eyebrow{font-weight:900;letter-spacing:.08em;font-size:.78rem;color:#466355;text-transform:uppercase;margin:0 0 .6rem;text-shadow:none}
     .title{margin:.25rem 0 var(--space-6);font-weight:900;font-size:clamp(26px,6.2vw,36px);letter-spacing:-.02em;line-height:1.14}
 
-    /* Cards/steps */
+    /* Steps cards */
     .steps{display:grid;gap:12px;margin:var(--space-6) 0}
     .card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff;box-shadow:var(--shadow-sm)}
     .card h3{margin:.2rem 0 .35rem;font-size:1.05rem}
     .card p{margin:0;color:#3a4b44;font-size:.98rem;text-shadow:none}
 
-    /* Task buttons (same look as Taskers) */
-    .tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:var(--space-6) 0}
-    .task{
-      border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; background:#fff;
-      box-shadow:var(--shadow-sm)
+    /* ========= NEW TILE DESIGN ========= */
+    .tiles{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:var(--space-6) 0;
     }
-    .task .ico{font-size:22px;display:block;margin-bottom:6px}
-    .task span{font-weight:800;color:#2b453a;text-shadow:none}
+    .tile{
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+      padding:16px 12px; height:126px;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 12px 24px rgba(0,0,0,.10);
+      text-decoration:none;
+      transition:transform .06s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .tile:focus-visible{outline:3px solid #FFD66B; outline-offset:3px}
+    .tile:hover{transform:translateY(-2px); box-shadow:0 16px 28px rgba(0,0,0,.14); border-color:rgba(0,0,0,.18)}
+    .icon-bubble{
+      width:54px; height:54px; border-radius:999px;
+      display:grid; place-items:center;
+      background:var(--offwhite);
+      border:1px solid var(--line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+      font-size:26px; line-height:1;
+    }
+    .tile-label{font-weight:900; font-size:19px; color:#1e3b2d; letter-spacing:.01em}
+    /* ================================== */
 
     /* CTAs */
     .ctas{display:grid;gap:var(--space-4);margin:var(--space-6) 0}
@@ -139,7 +160,7 @@
 
     @media (min-width:768px){
       .wrap{max-width:720px}
-      .tasks{grid-template-columns:repeat(6,1fr)}
+      .tiles{grid-template-columns:repeat(6,1fr)}
     }
 
     .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -206,14 +227,32 @@
       </div>
     </section>
 
-    <!-- Popular tasks -->
-    <section class="tasks" aria-label="Popular tasks">
-      <div class="task"><span class="ico">🪴</span><span>Yardwork</span></div>
-      <div class="task"><span class="ico">❄️</span><span>Snow</span></div>
-      <div class="task"><span class="ico">🐾</span><span>Pet Care</span></div>
-      <div class="task"><span class="ico">🧹</span><span>Cleaning</span></div>
-      <div class="task"><span class="ico">🧸</span><span>Babysitting</span></div>
-      <div class="task"><span class="ico">📚</span><span>Tutoring</span></div>
+    <!-- Popular tasks (NEW tiles) -->
+    <section class="tiles" aria-label="Popular tasks">
+      <a class="tile" href="/taskers.html#yardwork" aria-label="Yardwork">
+        <span class="icon-bubble">🪴</span>
+        <span class="tile-label">Yardwork</span>
+      </a>
+      <a class="tile" href="/taskers.html#snow" aria-label="Snow">
+        <span class="icon-bubble">❄️</span>
+        <span class="tile-label">Snow</span>
+      </a>
+      <a class="tile" href="/taskers.html#petcare" aria-label="Pet Care">
+        <span class="icon-bubble">🐾</span>
+        <span class="tile-label">Pet Care</span>
+      </a>
+      <a class="tile" href="/taskers.html#cleaning" aria-label="Cleaning">
+        <span class="icon-bubble">🧹</span>
+        <span class="tile-label">Cleaning</span>
+      </a>
+      <a class="tile" href="/taskers.html#babysitting" aria-label="Babysitting">
+        <span class="icon-bubble">🧸</span>
+        <span class="tile-label">Babysitting</span>
+      </a>
+      <a class="tile" href="/taskers.html#tutoring" aria-label="Tutoring">
+        <span class="icon-bubble">📚</span>
+        <span class="tile-label">Tutoring</span>
+      </a>
     </section>
 
     <!-- CTAs (waitlist button removed) -->
@@ -246,7 +285,6 @@
       btn.addEventListener('click', () => panel.classList.contains('open') ? close() : open());
       backdrop.addEventListener('click', close);
       document.addEventListener('keydown', e => { if (e.key==='Escape' && panel.classList.contains('open')) close(); });
-      panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
     })();
 
     (function () {
