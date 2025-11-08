@@ -130,7 +130,7 @@
       <a href="/index.html" role="menuitem">Home</a>
       <a href="/about.html" role="menuitem">About</a>
       <a href="/taskers.html" role="menuitem">For Taskers</a>
-      <a href="/tasker-register.html" role="menuitem">Tasker Registration</a>
+      <a href="/tasker-register.html" role="menuitem" aria-current="page">Tasker Registration</a>
       <a href="/customers.html" role="menuitem">For Customers</a>
       <a href="/customer-register.html" role="menuitem">Customer Registration</a>
       <a href="/contact.html" role="menuitem">Contact</a>
@@ -141,7 +141,7 @@
   <!-- Main content -->
   <main class="wrap">
     <h1 class="title">Register as a Tasker (14–17)</h1>
-    <p class="help">Parent/guardian consent is required. We’ll verify your info before activating your profile.</p>
+    <p class="help">Parent/guardian consent is required for anyone under 18. We’ll verify your info before activating your profile.</p>
 
     <section id="policy" class="disclaimer" aria-label="Youth Participation Policy">
       <strong>Youth Participation Policy.</strong> UpNext Works is a community initiative for youth ages 14–17 to gain early, supervised work experience. This platform is not an employment service and does not create an employer–employee relationship. Adults may participate as customers or mentors. Age limits are for safety, educational, and compliance reasons.
@@ -149,7 +149,11 @@
 
     <!-- Registration form -->
     <form id="tasker-form" class="form" action="https://formspree.io/f/xjkjbvdv" method="POST" novalidate>
+      <!-- Hidden tracking/meta -->
       <input type="hidden" name="source" value="upnextworks.org-tasker-registration" />
+      <input type="hidden" id="age" name="age" value="" />
+      <input type="hidden" id="requires_parent_consent" name="requires_parent_consent" value="" />
+      <input type="hidden" id="parent_verification_code" name="parent_verification_code" value="" />
 
       <!-- Tasker info -->
       <div class="field-row">
@@ -166,7 +170,8 @@
       <div class="field-row">
         <div class="field">
           <label for="dob">Date of birth</label>
-          <input id="dob" name="dob" type="date" required />
+          <input id="dob" name="dob" type="date" required aria-describedby="dob-help" />
+          <div id="dob-help" class="help">Taskers must be between 14 and 17 years old.</div>
         </div>
         <div class="field">
           <label for="school">School (or homeschool)</label>
@@ -243,59 +248,48 @@
         </div>
       </div>
 
-      <!-- Equipment / transport -->
-      <div class="field-row">
-        <div class="field">
-          <label for="equipment">Equipment (if any)</label>
-          <input id="equipment" name="equipment" type="text" placeholder="e.g., shovel, rake, mower (with parent approval)" />
-        </div>
-        <div class="field">
-          <label for="transport">Transportation</label>
-          <select id="transport" name="transport">
-            <option value="">Select</option>
-            <option>Walk/Bike</option>
-            <option>Parent/Guardian can drive</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
+      <!-- Parent/Guardian (auto-shown for <18) -->
+      <section class="parent-section" id="parentSection" style="display:none; border-top:1px solid var(--line); padding-top:12px;">
+        <h3 style="margin:6px 0;">Parent/Guardian Consent (required if under 18)</h3>
 
-      <!-- Parent/Guardian -->
-      <div class="field">
-        <label>Parent/Guardian contact (required)</label>
         <div class="field-row">
           <div class="field">
             <label for="parent_name">Parent/Guardian name</label>
-            <input id="parent_name" name="parent_name" type="text" required />
+            <input id="parent_name" name="parent_name" type="text" />
           </div>
           <div class="field">
             <label for="parent_relation">Relationship</label>
-            <input id="parent_relation" name="parent_relation" type="text" placeholder="Mom, Dad, Aunt, etc." required />
+            <input id="parent_relation" name="parent_relation" type="text" placeholder="Mom, Dad, Aunt, etc." />
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="parent_email">Parent/Guardian email</label>
-            <input id="parent_email" name="parent_email" type="email" inputmode="email" required />
+            <input id="parent_email" name="parent_email" type="email" inputmode="email" />
           </div>
           <div class="field">
             <label for="parent_phone">Parent/Guardian mobile</label>
-            <input id="parent_phone" name="parent_phone" type="tel" inputmode="tel" placeholder="(###) ###-####" required />
+            <input id="parent_phone" name="parent_phone" type="tel" inputmode="tel" placeholder="(###) ###-####" />
           </div>
         </div>
-      </div>
+
+        <label class="checkbox">
+          <input type="checkbox" id="parent_consent" name="parent_consent" />
+          I am the parent/guardian and I consent to my teen’s participation in UpNext Works.
+        </label>
+
+        <p class="help" style="margin-top:6px">
+          After you submit, we’ll email <em>your parent/guardian</em> a confirmation link. Your profile won’t be activated until your parent/guardian clicks to confirm.
+        </p>
+      </section>
 
       <!-- Consents -->
-      <div class="field">
+      <div class="field" style="border-top:1px solid var(--line); padding-top:12px;">
         <label>Consents</label>
         <label class="checkbox">
-          <input type="checkbox" id="teen_ack" name="teen_ack" required />
-          I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Use</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" id="parent_consent" name="parent_consent" required />
-          I am the parent/guardian and I consent for my teen to participate in UpNext Works.
+          <input type="checkbox" id="teen_ack" name="teen_ack" />
+          I (the teen) agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Use</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
         </label>
         <label class="checkbox">
           <input type="checkbox" id="sms_ok" name="sms_ok" />
@@ -308,15 +302,15 @@
         <span class="help">We’ll review and confirm by email/text.</span>
       </div>
 
-      <div class="success" id="okMsg" role="status" aria-live="polite">Thanks! Your registration was received. We’ll be in touch shortly.</div>
+      <div class="success" id="okMsg" role="status" aria-live="polite">Thanks! Your registration was received. We’ve sent a confirmation link to your parent/guardian.</div>
       <div class="error" id="errMsg" role="alert">Please complete required fields and try again.</div>
     </form>
   </main>
 
   <!-- JS -->
   <script>
+    // Menu
     (function(){
-      // Menu
       const btn = document.getElementById('menuBtn');
       const panel = document.getElementById('menuPanel');
       const backdrop = document.getElementById('menuBackdrop');
@@ -328,60 +322,141 @@
       panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
     })();
 
-    // Form validation + Formspree submission
+    // Utilities
+    function sanitizePhone(p){ return (p||'').replace(/[^\d]/g,''); }
+    function uuidv4(){
+      // Simple UUID generator for client-side tokening
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+      });
+    }
+    function calcAge(dobStr){
+      if(!dobStr) return null;
+      const dob = new Date(dobStr);
+      if (isNaN(dob.getTime())) return null;
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+      return age;
+    }
+
+    // Form validation + parent toggle + Formspree submission
     (function () {
       const form = document.getElementById('tasker-form');
       const submitBtn = document.getElementById('submitBtn');
       const ok = document.getElementById('okMsg');
       const err = document.getElementById('errMsg');
+      const parentSection = document.getElementById('parentSection');
 
-      const pilotZips = new Set(['20169','20155','20136','20143','20109']);
-      const requiredIds = [
+      const dobEl = document.getElementById('dob');
+      const ageEl = document.getElementById('age');
+      const rpcEl = document.getElementById('requires_parent_consent');
+      const pvcEl = document.getElementById('parent_verification_code');
+
+      const requiredBase = [
         'first_name','last_name','dob','tasker_email','tasker_phone',
-        'street','city','state','zip',
-        'parent_name','parent_relation','parent_email','parent_phone',
-        'teen_ack','parent_consent'
+        'street','city','state','zip','teen_ack'
+      ];
+      const requiredParent = [
+        'parent_name','parent_relation','parent_email','parent_phone','parent_consent'
       ];
 
-      function sanitizePhone(p){ return (p||'').replace(/[^\d]/g,''); }
+      const pilotZips = new Set(['20169','20155','20136','20143','20109']);
+
+      function onDobChange(){
+        const age = calcAge(dobEl.value);
+        ageEl.value = (age ?? '');
+        if (age == null) return;
+
+        // Hard guard: Taskers must be 14–17
+        if (age < 14 || age > 17){
+          parentSection.style.display = 'none';
+          rpcEl.value = 'no';
+          submitBtn.disabled = true;
+          alert('Taskers must be between 14 and 17 years old.');
+        } else {
+          parentSection.style.display = 'block';      // under 18 => show parent section
+          rpcEl.value = 'yes';
+          submitBtn.disabled = false;
+        }
+      }
+
+      dobEl.addEventListener('change', onDobChange);
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault(); err.style.display='none'; ok.style.display='none';
 
-        // Required checks
-        for (const id of requiredIds){
+        // Generate a verification code for the parent email (used by your email automation)
+        if (!pvcEl.value) pvcEl.value = uuidv4();
+
+        // Validate DOB + age window
+        const age = calcAge(dobEl.value);
+        if (age == null){
+          err.textContent = 'Please enter a valid date of birth.';
+          err.style.display='block';
+          dobEl.focus(); return;
+        }
+        if (age < 14 || age > 17){
+          err.textContent = 'Taskers must be between 14 and 17 years old.';
+          err.style.display='block';
+          dobEl.focus(); return;
+        }
+
+        // Required base fields
+        for (const id of requiredBase){
           const el = document.getElementById(id);
           const isBox = el && el.type === 'checkbox';
           if (!el || (isBox ? !el.checked : (el.value||'').trim()==='')){
-            err.textContent = 'Please complete all required fields and consents.';
+            err.textContent = 'Please complete all required fields.';
             err.style.display = 'block';
             if (el) el.focus();
             return;
           }
         }
 
-        // Phone normalizations
+        // Parent consent (shown & required for < 18)
+        if (age < 18){
+          for (const id of requiredParent){
+            const el = document.getElementById(id);
+            const isBox = el && el.type === 'checkbox';
+            if (!el || (isBox ? !el.checked : (el.value||'').trim()==='')){
+              err.textContent = 'Parent/Guardian consent and contact information are required.';
+              err.style.display = 'block';
+              if (el) el.focus();
+              return;
+            }
+          }
+        }
+
+        // Normalize phones
         const teenPhone = document.getElementById('tasker_phone');
         const parentPhone = document.getElementById('parent_phone');
         const teenDigits = sanitizePhone(teenPhone.value);
-        const parentDigits = sanitizePhone(parentPhone.value);
-        if (teenDigits.length < 10 || parentDigits.length < 10){
-          err.textContent = 'Enter valid 10-digit phone numbers for teen and parent/guardian.';
-          err.style.display='block';
-          return;
+        if (teenDigits.length < 10){
+          err.textContent = 'Enter a valid 10-digit mobile number for the teen.';
+          err.style.display='block'; teenPhone.focus(); return;
         }
-        teenPhone.value = teenDigits; parentPhone.value = parentDigits;
+        teenPhone.value = teenDigits;
+
+        if (age < 18){
+          const parentDigits = sanitizePhone(parentPhone.value);
+          if (parentDigits.length < 10){
+            err.textContent = 'Enter a valid 10-digit mobile number for the parent/guardian.';
+            err.style.display='block'; parentPhone.focus(); return;
+          }
+          parentPhone.value = parentDigits;
+        }
 
         // ZIP format
         const zipEl = document.getElementById('zip');
         const zip = (zipEl.value||'').trim();
         if (!/^\d{5}$/.test(zip)){
           err.textContent = 'Please enter a 5-digit ZIP code.';
-          err.style.display='block';
-          zipEl.focus(); return;
+          err.style.display='block'; zipEl.focus(); return;
         }
 
-        // Submit
         submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
         try {
           const res = await fetch(form.action, {
@@ -390,12 +465,14 @@
             body: new FormData(form)
           });
           if (res.ok){
+            // Success message; special note if outside pilot ZIPs
             const msg = pilotZips.has(zip)
-              ? 'Thanks! Your registration was received. We’ll follow up shortly.'
-              : 'Thanks! You’re outside our pilot area — we’ll notify you when we expand.';
+              ? 'Thanks! Your registration was received. We’ve sent a confirmation link to your parent/guardian.'
+              : 'Thanks! You’re outside our pilot area — we’ll notify you when we expand. We’ve also emailed your parent/guardian to confirm.';
             ok.textContent = msg;
             ok.style.display = 'block';
             form.reset();
+            parentSection.style.display = 'none';
             submitBtn.textContent = 'Submitted ✓';
           } else {
             err.style.display = 'block';
@@ -406,6 +483,9 @@
           submitBtn.disabled = false; submitBtn.textContent = 'Submit registration';
         }
       });
+
+      // Initialize verification code immediately so it always exists in submissions
+      document.getElementById('parent_verification_code').value = uuidv4();
     })();
   </script>
 </body>
