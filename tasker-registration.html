@@ -378,10 +378,15 @@
         let age = today.getFullYear() - dob.getFullYear();
         const m = today.getMonth() - dob.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-        if (age < 14 || age > 17){
-          err.textContent = 'Taskers must be 14–17 years old.'; err.style.display='block'; dobEl.focus(); return;
-        }
-
+        if (age < 14 || age > 17) {
+  err.textContent =
+    'UpNext Works is currently open to teens ages 14–17 as part of our youth pilot program. ' +
+    'This focus helps ensure safety, parental involvement, and compliance with Virginia youth employment laws. ' +
+    'If you’re over 17, we’d still love to hear from you — please check back soon as we expand!';
+  err.style.display = 'block';
+  dobEl.focus();
+  return;
+}
         // Phone normalization
         const teenPhone = document.getElementById('tasker_phone');
         const parentPhone = document.getElementById('parent_phone');
