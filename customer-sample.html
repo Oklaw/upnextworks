@@ -66,10 +66,14 @@
 
     /* ===== Page shell (wider customer layout) ===== */
     .shell{ max-width:1100px; margin:0 auto; padding:28px 16px 56px; }
-    .hero{
-      display:flex; flex-direction:column; gap:12px; margin-bottom:18px;
-      color:#092014; text-shadow:0 2px 4px rgba(0,0,0,.25);
-    }
+   .hero{
+  display:flex; flex-direction:column; gap:12px;
+  /* more space below the top text */
+  margin-bottom:42px;
+  /* make the text white and pop over the photo */
+  color:#fff;
+  text-shadow:0 3px 6px rgba(0,0,0,.40);
+}
     .hero h1{ margin:0; font-size:clamp(26px,4.6vw,42px); line-height:1.12; letter-spacing:-.02em; }
     .hero p{ margin:0; color:#10311f; font-size:1.05rem; }
 
