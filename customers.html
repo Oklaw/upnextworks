@@ -23,6 +23,30 @@
     *{box-sizing:border-box}
     body{ margin:0; font-family:var(--font); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; }
 
+    /* Desktop-only: make the hero image span edge-to-edge */
+@media (min-width: 900px) {
+  /* If your hero is inside a centered container, this pushes it full-bleed */
+  .hero-visual{
+    width: 100vw;                      /* fill the full viewport width */
+    margin-left: calc(50% - 50vw);     /* counter the parent’s centering */
+    border-radius: 0;                  /* remove rounded corners on desktop */
+    box-shadow: none;                  /* optional: remove card shadow */
+  }
+
+  /* Ensure the image covers the section nicely */
+  .hero-visual img{
+    width: 100%;
+    height: 70vh;                      /* adjust height as you like: 60–85vh */
+    object-fit: cover;                 /* cover without squishing */
+    display: block;
+  }
+
+  /* Give the overlay breathing room on desktop */
+  .hero-overlay{
+    padding: 64px 24px;
+  }
+}
+
     /* ===== Header (kept the same) ===== */
     .site-header{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line); }
     .nav-wrap{ height:72px; display:flex; align-items:center; gap:18px; max-width:1100px; margin:0 auto; padding:0 16px; }
