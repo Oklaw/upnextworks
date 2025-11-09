@@ -67,14 +67,14 @@
   display: grid;
   place-items: center;
   text-align: center;
-  padding: 40px 18px;
+  padding: 20px 18px; /* === MOVES TEXT ON MOBILE ==== */
   /* No transform here — mobile version stays as-is */
 }
     
 /* ===== Desktop-only adjustment ===== */
 @media (min-width: 900px) {
   .hero-overlay {
-    transform: translateY(-186px); /* Raise text only on wider screens */
+    transform: translateY(-200px); /* Raise text only on wider screens */
   }
     }
     .hero-title{
