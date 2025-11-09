@@ -120,36 +120,42 @@
   margin-top: 36px; /* increase spacing between subtitle and button */
 }
 
-  /* ===== Desktop-only adjustments: move hero text up ===== */
+/* ===== Desktop-only adjustments: full-bleed hero + move text up ===== */
 @media (min-width: 900px) {
-  .hero-overlay {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 64px 24px;
-    transform: translateY(-235px); /* move entire overlay up */
+  /* Make the hero section span edge-to-edge on desktop */
+  .hero-visual{
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0;
+    box-shadow: none;
   }
-  
-@media (min-width: 900px) {
-  .hero-overlay {
+  .hero-visual img{
+    width: 100%;
+    height: 72vh;         /* adjust to taste (60–85vh) */
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Keep the overlay pinned to the image (no translate), just push content up
+     by reducing top padding and slightly strengthening the gradient */
+  .hero-overlay{
+    position: absolute; inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 120px 24px 64px; /* more top padding for tint area */
+    justify-content: flex-start;    /* start at top */
+    padding: 8vh 24px 4vh;          /* smaller top padding = higher text */
     background: linear-gradient(
       180deg,
-      rgba(0,0,0,.45) 0%,
-      rgba(0,0,0,.35) 40%,
-      rgba(0,0,0,.25) 75%,
-      rgba(0,0,0,.15) 100%
+      rgba(0,0,0,.48) 0%,
+      rgba(0,0,0,.36) 45%,
+      rgba(0,0,0,.22) 100%
     );
-    transform: translateY(-200px);
   }
+
+  .hero-title{ margin-bottom: 16px; }
+  .hero-overlay .apply{ margin-top: 28px; }  /* space under subtitle */
 }
-  .hero-title {
-    margin-bottom: 14px; /* tighter spacing under title */
   }
 
   .hero-sub {
