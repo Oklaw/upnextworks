@@ -5,48 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Workish — Create Account</title>
   <meta name="description" content="Create a Workish customer account to hire local, verified teen help." />
+  <meta name="geo.region" content="US-VA">
+  <meta name="geo.placename" content="Northern Virginia">
+  <meta name="csrf-token" content="">
+
   <style>
-    :root{ --forest:#003924; --ink:#0f2a1b; --sub:#224E3B; --cream:#F7F3EA; --off:#FAF8F2; --gold:#FFD66B; --line:rgba(0,0,0,.14);
-      --font:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans"; --shadow:0 10px 24px rgba(0,0,0,.10); }
-    *{box-sizing:border-box} body{margin:0;font-family:var(--font);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased}
-    body::before{content:"";position:fixed;inset:0;z-index:-2;background:url("/images/customer.PNG") center/cover no-repeat;filter:brightness(.96) saturate(1.02) blur(.3px)}
-    body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,57,36,.30),rgba(0,57,36,.24) 280px,rgba(247,243,234,.18) 60%,rgba(247,243,234,.22) 100%)}
-    .site-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line)}
-    .nav-wrap{height:84px;display:flex;align-items:center;gap:18px;max-width:1100px;margin:0 auto;padding:0 16px}
-    .nav-brand{display:flex;align-items:center;text-decoration:none}
-    .nav-logo{max-height:86px;width:auto;display:block;object-fit:contain}
-    .nav-main{display:flex;align-items:center;gap:6px;margin-left:8px}.nav-item{position:relative}
-    .nav-link{background:transparent;border:none;cursor:pointer;padding:10px 12px;border-radius:10px;font-weight:700;color:#0e1f17}
-    .submenu{position:absolute;top:100%;left:0;min-width:220px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,.12);padding:8px;display:none}
-    .submenu a{display:block;padding:10px 12px;border-radius:8px;color:#224E3B;text-decoration:none;font-weight:600}
-    .submenu a:hover{background:var(--off)} @media(hover:hover){ .has-submenu:hover .submenu{display:block} }
-    .nav-burger{margin-left:auto;width:42px;height:42px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;display:none;align-items:center;justify-content:center;gap:4px;flex-direction:column;cursor:pointer}
-    .nav-burger span{width:20px;height:2px;background:#0e1f17;display:block}
-    .mobile-panel{border-top:1px solid var(--line);background:#fff;box-shadow:0 12px 28px rgba(0,0,0,.12)} .m-item{border-bottom:1px solid var(--line);padding:6px 8px}
-    .m-item summary{cursor:pointer;padding:12px 8px;font-weight:800}.m-item a{display:block;padding:10px 12px;text-decoration:none;color:#224E3B}
-    .m-item a:hover{background:var(--off);border-radius:8px} @media(max-width:900px){ .nav-main{display:none} .nav-burger{display:flex} }
-    .shell{max-width:1100px;margin:0 auto;padding:28px 16px 56px}
-    .hero{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;color:#fff;text-shadow:0 3px 6px rgba(0,0,0,.40)}
-    .hero h1{margin:0;font-size:clamp(26px,4.6vw,40px);line-height:1.12;letter-spacing:-.02em;font-weight:900;color:#fff}
-    .card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
-    .signup{padding:20px 18px 18px;max-width:560px}
-    .field{display:flex;flex-direction:column;gap:6px;margin-top:12px}
-    .field label{font-weight:800;color:#173627}
-    .control{display:flex;align-items:center;gap:8px;background:var(--off);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:#1b2d23}
-    .control input{border:none;outline:none;background:transparent;flex:1;font-size:15px;color:#1b2d23}
-    .cta{width:100%;height:52px;margin-top:14px;border:none;border-radius:14px;font-weight:900;font-size:18px;color:#fff;background:var(--forest);cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-    .tiny{font-size:.92rem;color:#375445;margin-top:8px}
-    .error,.success{margin-top:10px;padding:10px 12px;border-radius:10px;display:none}
-    .error{border:1px solid #e7c5c5;background:#fff3f3;color:#7a1e1e}
-    .success{border:1px solid #cde4d6;background:#f3fbf7;color:#134b33}
+    :root{
+      --forest:#003924; --ink:#0f2a1b; --sub:#224E3B; --cream:#F7F3EA; --off:#FAF8F2; --gold:#FFD66B;
+      --line:rgba(0,0,0,.14); --font:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      --r-sm:14px; --r-lg:24px; --shadow:0 10px 24px rgba(0,0,0,.10); --shadow-lg:0 16px 42px rgba(0,0,0,.18);
+    }
+    *{box-sizing:border-box}
+    body{ margin:0; font-family:var(--font); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; }
+    body::before{ content:""; position:fixed; inset:0; z-index:-2; background:url("/images/customer.PNG") center/cover no-repeat; filter:brightness(.96) saturate(1.02) blur(.3px); }
+    body::after{ content:""; position:fixed; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(0,57,36,.30) 0px, rgba(0,57,36,.24) 280px, rgba(247,243,234,.18) 60%, rgba(247,243,234,.22) 100%); pointer-events:none; }
+
+    /* Header (same as your login page) */
+    .site-header{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line); }
+    .nav-wrap{ height:84px; display:flex; align-items:center; gap:18px; max-width:1100px; margin:0 auto; padding:0 16px; }
+    .nav-brand{ display:flex; align-items:center; text-decoration:none; }
+    .nav-logo{ max-height:86px; width:auto; display:block; object-fit:contain; }
+    .nav-main{ display:flex; align-items:center; gap:6px; margin-left:8px; }
+    .nav-item{ position:relative; }
+    .nav-link{ background:transparent; border:none; cursor:pointer; padding:10px 12px; border-radius:10px; font-weight:700; color:#0e1f17; }
+    .submenu{ position:absolute; top:100%; left:0; min-width:220px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.12); padding:8px; display:none; }
+    .submenu a{ display:block; padding:10px 12px; border-radius:8px; color:#224E3B; text-decoration:none; font-weight:600; }
+    .submenu a:hover{ background:var(--off); }
+    @media(hover:hover){ .has-submenu:hover .submenu{ display:block; } }
+    .nav-burger{ margin-left:auto; width:42px; height:42px; border-radius:10px; border:1px solid rgba(0,0,0,.12); background:#fff; display:none; align-items:center; justify-content:center; gap:4px; flex-direction:column; cursor:pointer; }
+    .nav-burger span{ width:20px; height:2px; background:#0e1f17; display:block; }
+    .mobile-panel{ border-top:1px solid var(--line); background:#fff; box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .m-item{ border-bottom:1px solid var(--line); padding:6px 8px; }
+    .m-item summary{ cursor:pointer; padding:12px 8px; font-weight:800; }
+    .m-item a{ display:block; padding:10px 12px; text-decoration:none; color:#224E3B; }
+    .m-item a:hover{ background:var(--off); border-radius:8px; }
+    @media(max-width:900px){ .nav-main{display:none;} .nav-burger{display:flex;} }
+
+    .shell{ max-width:1100px; margin:0 auto; padding:28px 16px 56px; }
+    .hero{ display:flex; flex-direction:column; gap:10px; margin-bottom:28px; color:#fff; text-shadow:0 3px 6px rgba(0,0,0,.40); }
+    .hero h1{ margin:0; font-size:clamp(26px,4.6vw,40px); line-height:1.12; letter-spacing:-.02em; font-weight:900; color:#fff; }
+    .hero p{ margin:0; font-weight:600; font-size:1.05rem; color:#ffffff; }
+
+    .card{ background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
+    .signup{ padding:20px 18px 18px; max-width:560px; }
+
+    .field{ display:flex; flex-direction:column; gap:6px; margin-top:12px; }
+    .field label{ font-weight:800; color:#173627; }
+    .control{ display:flex; align-items:center; gap:8px; background:var(--off); border:1px solid var(--line); border-radius:12px; padding:12px 14px; color:#1b2d23; }
+    .control input{ border:none; outline:none; background:transparent; flex:1; font-size:15px; color:#1b2d23; }
+    .toggle-btn{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-weight:800; cursor:pointer; }
+
+    .cta{ width:100%; height:52px; margin-top:14px; border:none; border-radius:14px; font-weight:900; font-size:18px; color:#fff; background:var(--forest); cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,.12); }
+    .tiny{ font-size:.92rem; color:#375445; margin-top:8px; }
+    .error{ margin-top:10px; padding:10px 12px; border:1px solid #e7c5c5; background:#fff3f3; color:#7a1e1e; border-radius:10px; display:none; }
+    .success{ margin-top:10px; padding:10px 12px; border:1px solid #cde4d6; background:#f3fbf7; color:#134b33; border-radius:10px; display:none; }
   </style>
 </head>
 <body>
+  <!-- Header (identical) -->
   <header class="site-header" role="banner">
     <div class="nav-wrap">
       <a class="nav-brand" href="/index.html" aria-label="Workish Home">
         <img src="/images/worklogo.PNG" alt="Workish" class="nav-logo">
       </a>
+
       <nav class="nav-main" aria-label="Primary">
         <div class="nav-item has-submenu"></div>
         <div class="nav-item has-submenu">
@@ -74,10 +96,12 @@
           </div>
         </div>
       </nav>
+
       <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-controls="mobilePanel" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
+
     <div id="mobilePanel" class="mobile-panel" hidden>
       <details class="m-item"><summary>Join Workish</summary>
         <a href="/taskers.html">For Taskers & Parents</a>
@@ -107,19 +131,35 @@
       <form id="signupForm" novalidate>
         <div class="field">
           <label for="email">Email</label>
-          <div class="control"><input id="email" name="email" type="email" required placeholder="you@example.com"></div>
+          <div class="control">
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
         </div>
+
         <div class="field">
           <label for="password">Password (min 8 chars)</label>
-          <div class="control"><input id="password" name="password" type="password" required minlength="8" placeholder="••••••••"></div>
+          <div class="control">
+            <input id="password" name="password" type="password" autocomplete="new-password" placeholder="••••••••" required minlength="8" />
+            <button class="toggle-btn" type="button" id="togglePw" aria-pressed="false" aria-controls="password">Show</button>
+          </div>
         </div>
+
         <div class="field">
-          <label for="dob">Date of Birth</label>
-          <div class="control"><input id="dob" name="dob" type="date" required></div>
+          <label for="confirm">Confirm password</label>
+          <div class="control">
+            <input id="confirm" name="confirm" type="password" autocomplete="new-password" placeholder="••••••••" required minlength="8" />
+            <button class="toggle-btn" type="button" id="toggleConfirm" aria-pressed="false" aria-controls="confirm">Show</button>
+          </div>
         </div>
-        <button class="cta" type="submit">Create Account</button>
+
+        <button class="cta" id="signupBtn" type="submit" aria-live="polite">
+          <span id="btnTxt">Create Account</span>
+          <span id="btnSpin" class="sr-only" aria-hidden="true">Loading…</span>
+        </button>
+
         <div id="err" class="error" role="alert"></div>
         <div id="ok" class="success" role="status"></div>
+
         <p class="tiny">By signing up, you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
         <p class="tiny">Already have an account? <a href="login.html">Sign in →</a></p>
       </form>
@@ -127,7 +167,7 @@
   </main>
 
   <script>
-    // Mobile panel toggle + submenu behavior (same as login page)
+    // Mobile panel + submenu behavior (same as other pages)
     const burger=document.getElementById('navBurger');
     const panel=document.getElementById('mobilePanel');
     if(burger&&panel){
@@ -152,20 +192,86 @@
       document.querySelectorAll('.has-submenu .nav-link').forEach(b=>b.setAttribute('aria-expanded','false'));
     });
 
-    // Minimal client-side validation (you'll wire backend later)
-    const form=document.getElementById('signupForm');
-    const err=document.getElementById('err');
-    const ok=document.getElementById('ok');
-    form.addEventListener('submit',(e)=>{
+    // Signup form: client-side validation + password match enforcement
+    const form = document.getElementById('signupForm');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPw = document.getElementById('confirm');
+    const btn = document.getElementById('signupBtn');
+    const btnTxt = document.getElementById('btnTxt');
+    const btnSpin = document.getElementById('btnSpin');
+    const err = document.getElementById('err');
+    const ok = document.getElementById('ok');
+
+    const togglePw = document.getElementById('togglePw');
+    const toggleConfirm = document.getElementById('toggleConfirm');
+
+    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function setBusy(b){ btn.disabled=b; btnTxt.textContent=b?'Creating…':'Create Account'; btnSpin.classList.toggle('sr-only', !b); }
+
+    // Show/Hide password fields
+    function toggleField(field, btn){
+      const isPw = field.getAttribute('type') === 'password';
+      field.setAttribute('type', isPw ? 'text' : 'password');
+      btn.textContent = isPw ? 'Hide' : 'Show';
+      btn.setAttribute('aria-pressed', String(isPw));
+      field.focus();
+    }
+    togglePw.addEventListener('click', ()=>toggleField(password, togglePw));
+    toggleConfirm.addEventListener('click', ()=>toggleField(confirmPw, toggleConfirm));
+
+    // Real-time mismatch hint (optional)
+    function checkMatch(showMsg=true){
+      if(password.value && confirmPw.value && password.value !== confirmPw.value){
+        if(showMsg){ err.textContent='Passwords do not match.'; err.style.display='block'; }
+        return false;
+      }
+      if(showMsg){ err.style.display='none'; }
+      return true;
+    }
+    password.addEventListener('input', ()=>checkMatch(false));
+    confirmPw.addEventListener('input', ()=>checkMatch(false));
+
+    form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       err.style.display='none'; ok.style.display='none';
-      const email=document.getElementById('email').value.trim().toLowerCase();
-      const pw=document.getElementById('password').value;
-      const dob=document.getElementById('dob').value;
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent='Enter a valid email.'; err.style.display='block'; return; }
-      if(pw.length<8){ err.textContent='Password must be at least 8 characters.'; err.style.display='block'; return; }
-      if(!dob){ err.textContent='Please enter your date of birth.'; err.style.display='block'; return; }
-      ok.textContent='Looks good. Wire this to POST /api/signup next.'; ok.style.display='block';
+
+      const emailVal = email.value.trim().toLowerCase();
+      const pw = password.value;
+      const pw2 = confirmPw.value;
+
+      // Client-side checks
+      if(!validEmail(emailVal)){ err.textContent='Enter a valid email address.'; err.style.display='block'; email.focus(); return; }
+      if(pw.length < 8){ err.textContent='Password must be at least 8 characters.'; err.style.display='block'; password.focus(); return; }
+      if(pw !== pw2){ err.textContent='Passwords do not match.'; err.style.display='block'; confirmPw.focus(); return; }
+
+      // Ready for backend: POST /api/signup
+      setBusy(true);
+      try{
+        const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+        const res = await fetch('/api/signup', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'X-CSRF-Token': csrf },
+          credentials:'include',
+          body: JSON.stringify({ email: emailVal, password: pw })
+        });
+
+        if(res.ok){
+          ok.textContent='Account created. Check your email to verify your address.';
+          ok.style.display='block';
+          // Optionally redirect after a short delay:
+          // setTimeout(()=>{ window.location.href='/verify-email.html'; }, 800);
+        } else {
+          const data = await res.json().catch(()=>({}));
+          err.textContent = data?.message || 'Unable to create account. Please try again.';
+          err.style.display='block';
+        }
+      }catch(ex){
+        err.textContent='Network error. Please try again.';
+        err.style.display='block';
+      }finally{
+        setBusy(false);
+      }
     });
   </script>
 </body>
