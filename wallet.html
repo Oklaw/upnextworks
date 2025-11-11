@@ -85,6 +85,9 @@
     }
     .apply:hover{ filter:brightness(1.08); transform:translateY(-2px); }
 
+    /* Make the two CTAs equal width */
+    .cta-row .apply{ flex:1 1 280px; text-align:center; }
+
     .grid{ display:grid; gap:18px; grid-template-columns: 1.1fr 1fr; }
     @media(max-width:990px){ .grid{ grid-template-columns:1fr; } }
 
@@ -104,8 +107,9 @@
     .level .bar{ height:100%; width:0; background:linear-gradient(90deg,var(--gold),#f0b500) }
     .level .num{ font-weight:900; color:#7a5a00 }
 
-    .world{ display:grid; place-items:center; background:linear-gradient(180deg,#f8fff7,#f1fbf6); border:1px solid var(--line); border-radius:14px; padding:12px }
-    .world .caption{ font-size:.85rem; color:#4a5a53; margin-top:6px; text-align:center }
+    /* Visual card now shows your uploaded pig.png */
+    .world{ display:grid; place-items:center; border:1px solid var(--line); border-radius:14px; padding:12px; background:#fff; }
+    .pig-visual{ width:100%; height:auto; display:block; border-radius:12px; }
 
     .goals{ display:grid; grid-template-columns:1fr; gap:10px }
     @media(min-width:560px){ .goals{ grid-template-columns:1fr 1fr } }
@@ -227,29 +231,9 @@
         </div>
       </div>
 
-      <div class="card world">
-        <svg viewBox="0 0 260 120" width="100%" height="120" aria-hidden="true">
-          <defs>
-            <linearGradient id="leaf" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stop-color="#1e7a4b"/>
-              <stop offset="1" stop-color="#0f6b42"/>
-            </linearGradient>
-          </defs>
-        <!-- ground -->
-          <rect x="0" y="92" width="260" height="28" fill="#d9e9df" />
-          <!-- jar -->
-          <rect x="24" y="24" width="52" height="80" rx="10" fill="none" stroke="#8fb7a2" stroke-width="3"/>
-          <!-- coins -->
-          <g id="coins"></g>
-          <!-- plant -->
-          <g id="plant" transform="translate(160,96)">
-            <rect x="-2" y="-8" width="4" height="8" fill="#7a5a00"/>
-            <path id="stem" d="M0 0 C 0 -10, 0 -30, 0 -40" stroke="url(#leaf)" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <ellipse id="leafL" cx="-6" cy="-20" rx="8" ry="4" fill="url(#leaf)" />
-            <ellipse id="leafR" cx="6" cy="-28" rx="8" ry="4" fill="url(#leaf)" />
-          </g>
-        </svg>
-        <div class="caption">Your world grows as you earn, save, and give 🌱</div>
+      <!-- Right: replaced plant visual with your pig image -->
+      <div class="card world" aria-label="Savings visual">
+        <img src="/images/pig.PNG" alt="Savings progress illustration" class="pig-visual">
       </div>
 
       <div class="card">
@@ -425,27 +409,30 @@
       document.getElementById('levelNum').textContent = state.level;
       document.getElementById('levelBar').style.width = Math.min(100, state.levelXP) + '%';
 
-      // Jar coins reflect savings ratio
-      const ratio = state.savedTotal > 0 ? Math.min(1, state.savedTotal / Math.max(1, state.totalEarned)) : 0;
+      // Old visual updates are now optional (guarded if elements exist)
       const coins = document.getElementById('coins');
-      coins.innerHTML = '';
-      const h = 70 * ratio;
-      for(let y=80; y>80-h; y-=6){
-        const r = document.createElementNS('http://www.w3.org/2000/svg','circle');
-        r.setAttribute('cx', '50');
-        r.setAttribute('cy', String(y));
-        r.setAttribute('r', '3');
-        r.setAttribute('fill', '#f3c85c');
-        coins.appendChild(r);
+      if (coins) {
+        const ratio = state.savedTotal > 0 ? Math.min(1, state.savedTotal / Math.max(1, state.totalEarned)) : 0;
+        coins.innerHTML = '';
+        const h = 70 * ratio;
+        for(let y=80; y>80-h; y-=6){
+          const r = document.createElementNS('http://www.w3.org/2000/svg','circle');
+          r.setAttribute('cx', '50');
+          r.setAttribute('cy', String(y));
+          r.setAttribute('r', '3');
+          r.setAttribute('fill', '#f3c85c');
+          coins.appendChild(r);
+        }
       }
-      // Plant grows with level
       const stem = document.getElementById('stem');
       const leafL = document.getElementById('leafL');
       const leafR = document.getElementById('leafR');
-      const len = Math.min(60, 30 + (state.level-1)*6);
-      stem.setAttribute('d', `M0 0 C 0 -10, 0 -${len-10}, 0 -${len}`);
-      leafL.setAttribute('cy', String(-Math.min(20, len/2)));
-      leafR.setAttribute('cy', String(-Math.min(28, len*0.7)));
+      if (stem && leafL && leafR) {
+        const len = Math.min(60, 30 + (state.level-1)*6);
+        stem.setAttribute('d', `M0 0 C 0 -10, 0 -${len-10}, 0 -${len}`);
+        leafL.setAttribute('cy', String(-Math.min(20, len/2)));
+        leafR.setAttribute('cy', String(-Math.min(28, len*0.7)));
+      }
     }
 
     function renderGoals(){
