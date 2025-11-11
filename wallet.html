@@ -145,6 +145,34 @@
 
     /* A11y helpers */
     .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    /* ===== Investing Calculator Help styles (added) ===== */
+    .calc-head{
+      display:flex; align-items:center; gap:8px; position:relative;
+    }
+    .help-trigger{
+      display:inline-grid; place-items:center;
+      width:24px; height:24px; border-radius:999px;
+      border:1px solid var(--line); background:#fff; color:#0e1f17;
+      font-weight:900; line-height:1; cursor:pointer;
+    }
+    .help-trigger:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+    .help-pop{
+      position:absolute; top:100%; right:0; margin-top:8px; z-index:10;
+      background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.12);
+      padding:12px; width:min(420px, 92vw);
+    }
+    .help-pop h4{ margin:0 0 6px; font-size:.98rem; }
+    .help-pop dl{ margin:0; display:grid; grid-template-columns: 1fr; gap:8px; }
+    .help-pop dt{ font-weight:800; color:#163d2a; }
+    .help-pop dd{ margin:2px 0 0 0; color:#51635b; font-size:.92rem; }
+    .help-pop .close{
+      margin-top:10px; display:inline-flex; align-items:center; gap:6px;
+      border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 10px; cursor:pointer; font-weight:700;
+    }
+    @media (max-width:560px){
+      .help-pop{ right:auto; left:0; }
+    }
   </style>
 </head>
 <body>
@@ -285,7 +313,39 @@
 
       <!-- Row 4: Investing Calculator spans both columns -->
       <div class="card span-2" aria-label="Investing calculator">
-        <h3>Investing Calculator (Roth IRA / Low-Cost Index Fund)</h3>
+        <h3 class="calc-head">
+          Investing Calculator (Roth IRA / Low-Cost Index Fund)
+          <button id="calcHelp" class="help-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="calcHelpPop" title="What's this?">?</button>
+        </h3>
+
+        <!-- Help popover -->
+        <div id="calcHelpPop" class="help-pop" role="dialog" aria-modal="false" aria-labelledby="calcHelpTitle" hidden>
+          <h4 id="calcHelpTitle">Calculator terms (quick guide)</h4>
+          <dl>
+            <div>
+              <dt>Starting Balance</dt>
+              <dd>The money already in the account when you begin.</dd>
+            </div>
+            <div>
+              <dt>Contribution Amount</dt>
+              <dd>How much you plan to add each period (monthly or annually).</dd>
+            </div>
+            <div>
+              <dt>Frequency</dt>
+              <dd>How often you contribute: every month or once per year.</dd>
+            </div>
+            <div>
+              <dt>Annual Return (%)</dt>
+              <dd>Your assumed average yearly growth rate (before fees/taxes).</dd>
+            </div>
+            <div>
+              <dt>Years</dt>
+              <dd>How long you invest. More time usually means more compounding.</dd>
+            </div>
+          </dl>
+          <button class="close" id="calcHelpClose" aria-label="Close help">Close</button>
+        </div>
+
         <div style="display:grid;gap:10px;grid-template-columns:repeat(6,1fr)">
           <label class="kpi" style="grid-column:span 2">
             <div class="label">Starting Balance</div>
@@ -836,6 +896,46 @@
     let state = loadState();
     renderAll();
     runCalc(); // show initial calculator numbers
+
+    // ===== Help popover behavior (added) =====
+    (function(){
+      const trigger = document.getElementById('calcHelp');
+      const pop = document.getElementById('calcHelpPop');
+      const closeBtn = document.getElementById('calcHelpClose');
+
+      if(!trigger || !pop) return;
+
+      function openPop(){
+        pop.hidden = false;
+        trigger.setAttribute('aria-expanded','true');
+        // Keep focus accessible
+        closeBtn && closeBtn.focus();
+      }
+      function closePop(){
+        if(pop.hidden) return;
+        pop.hidden = true;
+        trigger.setAttribute('aria-expanded','false');
+        trigger.focus();
+      }
+
+      trigger.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        if(pop.hidden) openPop(); else closePop();
+      });
+      closeBtn && closeBtn.addEventListener('click', (e)=>{ e.preventDefault(); closePop(); });
+
+      // Close on outside click
+      document.addEventListener('click', (e)=>{
+        if(pop.hidden) return;
+        const within = pop.contains(e.target) || trigger.contains(e.target);
+        if(!within) closePop();
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closePop();
+      });
+    })();
   </script>
 </body>
 </html>
