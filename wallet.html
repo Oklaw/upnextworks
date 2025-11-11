@@ -84,8 +84,7 @@
       transition:transform .12s ease, filter .2s ease; margin-top:8px;
     }
     .apply:hover{ filter:brightness(1.08); transform:translateY(-2px); }
-
-    /* Make the two CTAs equal width */
+    /* Equal width CTAs */
     .cta-row .apply{ flex:1 1 280px; text-align:center; }
 
     .grid{ display:grid; gap:18px; grid-template-columns: 1.1fr 1fr; }
@@ -106,10 +105,6 @@
     .level .barwrap{ flex:1; background:#ecf2ee; border-radius:999px; height:10px; overflow:hidden }
     .level .bar{ height:100%; width:0; background:linear-gradient(90deg,var(--gold),#f0b500) }
     .level .num{ font-weight:900; color:#7a5a00 }
-
-    /* Visual card now shows your uploaded pig.png */
-    .world{ display:grid; place-items:center; border:1px solid var(--line); border-radius:14px; padding:12px; background:#fff; }
-    .pig-visual{ width:100%; height:auto; display:block; border-radius:12px; }
 
     .goals{ display:grid; grid-template-columns:1fr; gap:10px }
     @media(min-width:560px){ .goals{ grid-template-columns:1fr 1fr } }
@@ -133,16 +128,20 @@
     .feed{ display:grid; gap:8px }
     .note{ border-left:4px solid var(--forest); background:#f7fbf8; border:1px solid var(--line); padding:10px; border-radius:8px }
 
+    /* Badges (now in the right column position) */
     .badges{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px }
     @media(max-width:700px){ .badges{ grid-template-columns:repeat(3,1fr) } }
     .badge{ display:grid; place-items:center; border:1px solid var(--line); border-radius:12px; padding:12px; background:#fff; text-align:center }
-    .badge .icon{ font-size:26px }
+    .badge .icon{ font-size:26px; display:grid; place-items:center }
     .badge .label{ font-size:.82rem; margin-top:6px }
     .badge.locked{ opacity:.5; filter:grayscale(1) }
 
     /* Footer dock */
     .dock{ position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); display:flex; gap:8px; flex-wrap:wrap; justify-content:center; padding:10px }
     .dock .btn{ padding:10px 14px }
+
+    /* Utility */
+    .span-2{ grid-column:1 / -1; }
 
     /* A11y helpers */
     .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
@@ -221,7 +220,7 @@
     </section>
 
     <section class="grid" aria-label="Wallet dashboard">
-      <!-- Left: balances + goals + challenges -->
+      <!-- Left: balances -->
       <div class="card">
         <h3>Balances</h3>
         <div class="balances" id="balances"></div>
@@ -231,11 +230,13 @@
         </div>
       </div>
 
-      <!-- Right: replaced plant visual with your pig image -->
-      <div class="card world" aria-label="Savings visual">
-        <img src="/images/pig.PNG" alt="Savings progress illustration" class="pig-visual">
+      <!-- Right: BADGES now lives here (moved up) -->
+      <div class="card">
+        <h3>Badges</h3>
+        <div class="badges" id="badges"></div>
       </div>
 
+      <!-- Row 2 -->
       <div class="card">
         <h3>Savings Goals</h3>
         <div class="goals" id="goals"></div>
@@ -266,14 +267,76 @@
         </div>
       </div>
 
-      <div class="card">
+      <!-- Row 3: Insights spans both columns -->
+      <div class="card span-2">
         <h3>Earnings Insights</h3>
         <div class="feed" id="feed"></div>
       </div>
 
-      <div class="card">
-        <h3>Badges</h3>
-        <div class="badges" id="badges"></div>
+      <!-- Row 4: Investing Calculator spans both columns -->
+      <div class="card span-2" aria-label="Investing calculator">
+        <h3>Investing Calculator (Roth IRA / Low-Cost Index Fund)</h3>
+        <div style="display:grid;gap:10px;grid-template-columns:repeat(6,1fr)">
+          <label class="kpi" style="grid-column:span 2">
+            <div class="label">Starting Balance</div>
+            <input id="calcStart" type="number" min="0" step="1" value="0" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:10px">
+          </label>
+          <label class="kpi" style="grid-column:span 2">
+            <div class="label">Contribution Amount</div>
+            <input id="calcContrib" type="number" min="0" step="1" value="200" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:10px">
+          </label>
+          <label class="kpi" style="grid-column:span 1">
+            <div class="label">Frequency</div>
+            <select id="calcFreq" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:10px">
+              <option value="monthly" selected>Monthly</option>
+              <option value="annual">Annual</option>
+            </select>
+          </label>
+          <label class="kpi" style="grid-column:span 1">
+            <div class="label">Annual Return (%)</div>
+            <input id="calcRate" type="number" min="0" step="0.1" value="7" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:10px">
+          </label>
+          <label class="kpi" style="grid-column:span 2">
+            <div class="label">Years</div>
+            <input id="calcYears" type="number" min="1" step="1" value="10" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:10px">
+          </label>
+          <div style="grid-column:span 4;display:flex;align-items:flex-end;gap:10px">
+            <button id="calcBtn" class="btn primary">Calculate</button>
+            <button id="calcReset" class="btn secondary">Reset</button>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:10px;margin-top:12px;grid-template-columns:repeat(3,1fr)">
+          <div class="kpi">
+            <div class="label">Future Value</div>
+            <div class="val" id="calcFV">$0</div>
+            <div class="sub">Projected account value</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total Contributions</div>
+            <div class="val" id="calcContribOut">$0</div>
+            <div class="sub">All deposits</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total Growth</div>
+            <div class="val" id="calcGrowth">$0</div>
+            <div class="sub">Future value minus contributions</div>
+          </div>
+        </div>
+
+        <div id="calcTableWrap" style="overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:12px">
+          <table id="calcTable" style="width:100%;border-collapse:separate;border-spacing:0">
+            <thead style="background:#f7fbf8">
+              <tr>
+                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Year</th>
+                <th style="text-align:right;padding:10px;border-bottom:1px solid var(--line)">End Balance</th>
+                <th style="text-align:right;padding:10px;border-bottom:1px solid var(--line)">Contributions (YTD)</th>
+                <th style="text-align:right;padding:10px;border-bottom:1px solid var(--line)">Growth (YTD)</th>
+              </tr>
+            </thead>
+            <tbody id="calcTbody"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
@@ -364,10 +427,11 @@
         hundredSaved: false,
         tenJobs: false,
         communityHero: false,
-        goalCrusher: false
+        goalCrusher: false,
+        goalSetter: false     // NEW
       },
       jobsCompleted: 0,
-      levelXP: 0,      // 0-100 per level for demo
+      levelXP: 0,
       level: 1,
       weeklyStreak: 0,
       lastStreakWeek: null,
@@ -377,13 +441,13 @@
     };
 
     function loadState(){
-      const raw = localStorage.getItem('workish_wallet_demo_v2');
+      const raw = localStorage.getItem('workish_wallet_demo_v3');
       if(!raw) return { ...defaultState };
       try { return JSON.parse(raw); } catch { return { ...defaultState }; }
     }
-    function saveState(){ localStorage.setItem('workish_wallet_demo_v2', JSON.stringify(state)); }
+    function saveState(){ localStorage.setItem('workish_wallet_demo_v3', JSON.stringify(state)); }
     function addFeed(msg){ state.feed.unshift({ t: Date.now(), msg }); if(state.feed.length>25) state.feed.pop(); }
-    function fmt(n){ return '$' + n.toFixed(0); }
+    function fmt(n){ return '$' + n.toLocaleString(undefined,{maximumFractionDigits:0}); }
     function weekOf(ts){ const d=new Date(ts); const first=new Date(d.getFullYear(),0,1); return Math.floor((d-first)/(1000*60*60*24*7)); }
 
     // ===== Rendering =====
@@ -408,31 +472,6 @@
       });
       document.getElementById('levelNum').textContent = state.level;
       document.getElementById('levelBar').style.width = Math.min(100, state.levelXP) + '%';
-
-      // Old visual updates are now optional (guarded if elements exist)
-      const coins = document.getElementById('coins');
-      if (coins) {
-        const ratio = state.savedTotal > 0 ? Math.min(1, state.savedTotal / Math.max(1, state.totalEarned)) : 0;
-        coins.innerHTML = '';
-        const h = 70 * ratio;
-        for(let y=80; y>80-h; y-=6){
-          const r = document.createElementNS('http://www.w3.org/2000/svg','circle');
-          r.setAttribute('cx', '50');
-          r.setAttribute('cy', String(y));
-          r.setAttribute('r', '3');
-          r.setAttribute('fill', '#f3c85c');
-          coins.appendChild(r);
-        }
-      }
-      const stem = document.getElementById('stem');
-      const leafL = document.getElementById('leafL');
-      const leafR = document.getElementById('leafR');
-      if (stem && leafL && leafR) {
-        const len = Math.min(60, 30 + (state.level-1)*6);
-        stem.setAttribute('d', `M0 0 C 0 -10, 0 -${len-10}, 0 -${len}`);
-        leafL.setAttribute('cy', String(-Math.min(20, len/2)));
-        leafR.setAttribute('cy', String(-Math.min(28, len*0.7)));
-      }
     }
 
     function renderGoals(){
@@ -467,20 +506,43 @@
       });
     }
 
+    function badgeIconSVG(kind){
+      // Inline SVGs as "pictures" for badges (no external assets)
+      if(kind==='goalSetter'){
+        return `
+          <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" fill="#fff7e0" stroke="#e6c24a"/>
+            <circle cx="24" cy="24" r="10" fill="#ffd66b" stroke="#b5962e"/>
+            <line x1="24" y1="6" x2="24" y2="10" stroke="#b5962e" stroke-width="2"/>
+            <line x1="24" y1="38" x2="24" y2="42" stroke="#b5962e" stroke-width="2"/>
+            <line x1="6" y1="24" x2="10" y2="24" stroke="#b5962e" stroke-width="2"/>
+            <line x1="38" y1="24" x2="42" y2="24" stroke="#b5962e" stroke-width="2"/>
+            <circle cx="24" cy="24" r="4" fill="#003924"/>
+          </svg>`;
+      }
+      // Defaults use emoji
+      const map = {
+        firstJob:'💼', hundredSaved:'🏦', tenJobs:'🔟', communityHero:'🤝', goalCrusher:'🎯'
+      };
+      const emo = map[kind] || '⭐';
+      return `<span style="font-size:26px;line-height:1">${emo}</span>`;
+    }
+
     function renderBadges(){
       const all = [
-        { key:'firstJob', label:'First Job', icon:'💼' },
-        { key:'hundredSaved', label:'$100 Saved', icon:'🏦' },
-        { key:'tenJobs', label:'10 Jobs', icon:'🔟' },
-        { key:'communityHero', label:'Community Hero', icon:'🤝' },
-        { key:'goalCrusher', label:'Goal Crusher', icon:'🎯' },
+        { key:'firstJob', label:'First Job' },
+        { key:'hundredSaved', label:'$100 Saved' },
+        { key:'tenJobs', label:'10 Jobs' },
+        { key:'communityHero', label:'Community Hero' },
+        { key:'goalCrusher', label:'Goal Crusher' },
+        { key:'goalSetter', label:'Goal Setter' } // NEW
       ];
       const wrap = document.getElementById('badges');
       wrap.innerHTML = '';
       all.forEach(b=>{
         const el = document.createElement('div');
         el.className = 'badge' + (state.badges[b.key] ? '' : ' locked');
-        el.innerHTML = `<div class="icon">${b.icon}</div><div class="label">${b.label}</div>`;
+        el.innerHTML = `<div class="icon">${badgeIconSVG(b.key)}</div><div class="label">${b.label}</div>`;
         wrap.appendChild(el);
       });
     }
@@ -527,7 +589,7 @@
       }
     }
 
-    // Goal actions
+    // Goal actions (unlock Goal Setter on first new goal)
     function onGoalAction(e){
       const id = e.currentTarget.getAttribute('data-id');
       const act = e.currentTarget.getAttribute('data-act');
@@ -590,6 +652,10 @@
       state.balanceAvailable -= seedAmt;
       state.savedTotal += seedAmt;
       state.goals.push({ id, name, target, saved: seedAmt });
+      if(!state.badges.goalSetter){
+        state.badges.goalSetter = true;
+        addFeed('Badge unlocked: Goal Setter 🎯');
+      }
       addFeed('New goal added: "'+name+'" with target '+fmt(target)+'.');
       addXP(10);
       renderAll();
@@ -694,9 +760,72 @@
       renderAll();
     });
 
+    // ===== Investing Calculator Logic =====
+    function calcFV({start, contrib, freq, years, rate}){
+      const r = rate/100;
+      let balance = start;
+      let totalContrib = start;
+      const rows = [];
+      for(let y=1; y<=years; y++){
+        if(freq==='monthly'){
+          const mRate = r/12;
+          for(let m=0; m<12; m++){
+            balance = balance * (1 + mRate) + contrib;
+            totalContrib += contrib;
+          }
+        } else {
+          balance = balance * (1 + r) + contrib;
+          totalContrib += contrib;
+        }
+        rows.push({ year:y, end:balance, contrib:totalContrib, growth:balance-totalContrib });
+      }
+      return { fv: balance, contrib: totalContrib, growth: balance-totalContrib, rows };
+    }
+
+    function fmtMoney(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}); }
+
+    function runCalc(){
+      const start = Number(document.getElementById('calcStart').value||0);
+      const contrib = Number(document.getElementById('calcContrib').value||0);
+      const freq = document.getElementById('calcFreq').value;
+      const years = Number(document.getElementById('calcYears').value||0);
+      const rate = Number(document.getElementById('calcRate').value||0);
+
+      const {fv, contrib:tot, growth, rows} = calcFV({start, contrib, freq, years, rate});
+
+      document.getElementById('calcFV').textContent = fmtMoney(fv);
+      document.getElementById('calcContribOut').textContent = fmtMoney(tot);
+      document.getElementById('calcGrowth').textContent = fmtMoney(growth);
+
+      const tb = document.getElementById('calcTbody');
+      tb.innerHTML = '';
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="padding:10px;border-top:1px solid var(--line)">${r.year}</td>
+          <td style="padding:10px;border-top:1px solid var(--line);text-align:right">${fmtMoney(r.end)}</td>
+          <td style="padding:10px;border-top:1px solid var(--line);text-align:right">${fmtMoney(r.contrib)}</td>
+          <td style="padding:10px;border-top:1px solid var(--line);text-align:right">${fmtMoney(r.growth)}</td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', (e)=>{ e.preventDefault(); runCalc(); });
+    document.getElementById('calcReset').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('calcStart').value = 0;
+      document.getElementById('calcContrib').value = 200;
+      document.getElementById('calcFreq').value = 'monthly';
+      document.getElementById('calcRate').value = 7;
+      document.getElementById('calcYears').value = 10;
+      runCalc();
+    });
+
     // Init
     let state = loadState();
     renderAll();
+    runCalc(); // show initial calculator numbers
   </script>
 </body>
 </html>
