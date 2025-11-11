@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workish — Safety & Oversight</title>
+  <meta name="description" content="How Workish keeps teens safe: parental oversight, verified accounts, background-checked adults, and built-in youth-labor compliance guardrails." />
+  <meta name="geo.region" content="US-VA">
+  <meta name="geo.placename" content="Northern Virginia">
+
+  <style>
+    :root{
+      --forest:#003924;
+      --ink:#0f2a1b;
+      --sub:#224E3B;
+      --cream:#F7F3EA;
+      --off:#FAF8F2;
+      --gold:#FFD66B;
+      --line:rgba(0,0,0,.14);
+      --font:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      --r-sm:14px; --r-lg:24px;
+      --shadow:0 10px 24px rgba(0,0,0,.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--font); color:var(--ink); background:var(--cream);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Background image + soft overlay */
+    body::before{
+      content:""; position:fixed; inset:0; z-index:-2;
+      background:url("/images/customer.PNG") center/cover no-repeat;
+      filter:brightness(.96) saturate(1.02) blur(.3px);
+    }
+    body::after{
+      content:""; position:fixed; inset:0; z-index:-1;
+      background:linear-gradient(180deg,
+        rgba(0,57,36,.30) 0px,
+        rgba(0,57,36,.24) 280px,
+        rgba(247,243,234,.18) 60%,
+        rgba(247,243,234,.22) 100%);
+      pointer-events:none;
+    }
+
+    /* ===== Header (kept consistent) ===== */
+    .site-header{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line); }
+    .nav-wrap{ height:84px; display:flex; align-items:center; gap:18px; max-width:1100px; margin:0 auto; padding:0 16px; }
+    .nav-brand{ display:flex; align-items:center; text-decoration:none; }
+    .nav-logo { max-height:86px; width:auto; display:block; object-fit:contain; }
+    .nav-main{ display:flex; align-items:center; gap:6px; margin-left:8px; }
+    .nav-item{ position:relative; }
+    .nav-link{ background:transparent; border:none; cursor:pointer; padding:10px 12px; border-radius:10px; font-weight:700; color:#0e1f17; }
+    .submenu{ position:absolute; top:100%; left:0; min-width:220px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.12); padding:8px; display:none; }
+    .submenu a{ display:block; padding:10px 12px; border-radius:8px; color:#224E3B; text-decoration:none; font-weight:600; }
+    .submenu a:hover{ background:var(--off); }
+    @media(hover:hover){ .has-submenu:hover .submenu{ display:block; } }
+    .nav-burger{ margin-left:auto; width:42px; height:42px; border-radius:10px; border:1px solid rgba(0,0,0,.12); background:#fff; display:none; align-items:center; justify-content:center; gap:4px; flex-direction:column; cursor:pointer; }
+    .nav-burger span{ width:20px; height:2px; background:#0e1f17; display:block; }
+    .mobile-panel{ border-top:1px solid var(--line); background:#fff; box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .m-item{ border-bottom:1px solid var(--line); padding:6px 8px; }
+    .m-item summary{ cursor:pointer; padding:12px 8px; font-weight:800; }
+    .m-item a{ display:block; padding:10px 12px; text-decoration:none; color:#224E3B; }
+    .m-item a:hover{ background:var(--off); border-radius:8px; }
+    @media(max-width:900px){ .nav-main{display:none;} .nav-burger{display:flex;} }
+
+    /* ===== Page shell ===== */
+    .shell{ max-width:1100px; margin:0 auto; padding:28px 16px 88px; }
+    .hero{
+      display:flex; flex-direction:column; gap:10px;
+      margin-bottom:32px;
+      color:#fff; text-shadow:0 3px 6px rgba(0,0,0,.40);
+    }
+    .hero h1{ margin:0; font-size:clamp(26px,4.6vw,42px); line-height:1.12; letter-spacing:-.02em; color:#fff; font-weight:900; }
+    .hero p{ margin:0; color:#ffffff; font-weight:600; font-size:1.05rem; }
+    .cta-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
+    .apply{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 22px; border-radius:999px; background:var(--forest); color:#fff;
+      font-weight:900; text-decoration:none; font-size:1.05rem;
+      border:2px solid #fff; box-shadow:0 0 8px rgba(255,255,255,.35), 0 8px 24px rgba(0,0,0,.25);
+      transition:transform .12s ease, filter .2s ease; margin-top:8px;
+    }
+    .apply:hover{ filter:brightness(1.08); transform:translateY(-2px); }
+
+    .grid{ display:grid; gap:18px; grid-template-columns: 1.1fr 1fr; }
+    @media(max-width:990px){ .grid{ grid-template-columns:1fr; } }
+
+    .card{ background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:14px; }
+    .card h3{ margin:0 0 8px; font-size:1.08rem; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#fff; font-weight:800; }
+
+    /* Feature list / steps */
+    .list{ margin:0; padding:0; list-style:none; display:grid; gap:10px }
+    .item{ border:1px solid var(--line); border-radius:14px; padding:12px; background:linear-gradient(180deg,#fff,#f7fbf8); }
+    .item strong{ color:var(--forest) }
+
+    /* Accordion */
+    details.guard{ border:1px solid var(--line); border-radius:14px; background:#fff; }
+    details.guard+details.guard{ margin-top:10px }
+    details.guard summary{ cursor:pointer; padding:12px; font-weight:900; color:#123824; list-style:none; }
+    details.guard summary::-webkit-details-marker{ display:none }
+    .guard .body{ padding:0 12px 12px; color:#385a4b }
+
+    /* Compliance Preview */
+    .comp-grid{ display:grid; gap:10px; grid-template-columns:repeat(6,1fr) }
+    @media(max-width:800px){ .comp-grid{ grid-template-columns:repeat(2,1fr) } }
+    .input{ display:grid; gap:6px }
+    .input label{ font-weight:800; color:#173d2a; }
+    .input input, .input select{
+      padding:10px; border-radius:10px; border:1px solid var(--line); background:#fff; color:#122a1e;
+    }
+    .btn{ border:none; border-radius:999px; padding:10px 12px; font-weight:800; cursor:pointer }
+    .btn.primary{ background:var(--forest); color:#fff }
+    .btn.secondary{ background:#fff; border:1px solid var(--line) }
+    .kpi{ background:linear-gradient(180deg,#fff,#f7fbf8); border:1px solid var(--line); border-radius:14px; padding:12px; }
+    .kpi .label{ font-size:.82rem; color:#4c5e55; }
+    .kpi .val{ font-weight:900; font-size:1.15rem; color:var(--forest); }
+
+    .note{ border-left:4px solid var(--forest); background:#f7fbf8; border:1px solid var(--line); padding:10px; border-radius:8px }
+    .ok{ color:#0b6d3d; font-weight:900 }
+    .warn{ color:#8a3c00; font-weight:900 }
+    .bad{ color:#8d1d1d; font-weight:900 }
+    .tiny{ font-size:.92rem; color:#375445; margin-top:6px; }
+
+    .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  </style>
+</head>
+<body>
+
+  <!-- Header (logo + menus) -->
+  <header class="site-header" role="banner">
+    <div class="nav-wrap">
+      <a class="nav-brand" href="/index.html" aria-label="Workish Home">
+        <img src="/images/worklogo.PNG" alt="Workish" class="nav-logo">
+      </a>
+
+      <nav class="nav-main" aria-label="Primary">
+        <div class="nav-item has-submenu"></div>
+
+        <div class="nav-item has-submenu">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">Join Workish</button>
+          <div class="submenu">
+            <a href="/taskers.html">For Taskers & Parents</a>
+            <a href="/customers.html">For Customers</a>
+            <a href="/safety.html" aria-current="page">Safety & Oversight</a>
+          </div>
+        </div>
+        <div class="nav-item has-submenu">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">Why Workish</button>
+          <div class="submenu">
+            <a href="/about.html#mission">Mission</a>
+            <a href="/about.html#trust">Trust & verification</a>
+            <a href="/about.html#faq">FAQ</a>
+          </div>
+        </div>
+        <div class="nav-item has-submenu">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">What’s new</button>
+          <div class="submenu">
+            <a href="/updates.html#pilot-news">Pilot updates</a>
+            <a href="/updates.html#roadmap">Roadmap</a>
+            <a href="/updates.html#changelog">Changelog</a>
+          </div>
+        </div>
+        <div class="nav-item has-submenu">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">Workish Wallet 💰</button>
+          <div class="submenu">
+            <a href="/wallet.html">Save with Workish</a>
+          </div>
+        </div>
+      </nav>
+
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-controls="mobilePanel" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div id="mobilePanel" class="mobile-panel" hidden>
+      <details class="m-item"><summary>Join Workish</summary>
+        <a href="/taskers.html">For Taskers & Parents</a>
+        <a href="/customers.html">For Customers</a>
+        <a href="/safety.html" aria-current="page">Safety & Oversight</a>
+      </details>
+      <details class="m-item"><summary>Why Workish</summary>
+        <a href="/about.html#mission">Mission</a>
+        <a href="/about.html#trust">Trust & Verification</a>
+        <a href="/about.html#faq">FAQ</a>
+      </details>
+      <details class="m-item"><summary>What’s new</summary>
+        <a href="/updates.html#pilot-news">Pilot updates</a>
+        <a href="/updates.html#roadmap">Roadmap</a>
+        <a href="/updates.html#changelog">Changelog</a>
+      </details>
+       <details class="m-item"><summary>Workish Wallet 💰</summary>
+        <a href="/wallet.html">Save with Workish</a>
+      </details>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="shell">
+    <section class="hero" aria-label="Intro">
+      <h1>Safety & Oversight</h1>
+      <p>Parent-supervised, age-appropriate work with built-in guardrails that respect youth labor rules.</p>
+      <div class="cta-row">
+        <a class="apply" href="/tasker-registration.html">Teen & Parent Pilot Registration →</a>
+        <a class="apply" href="/customers.html">Hire with Safety Standards →</a>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Safety pillars and compliance tools">
+      <!-- Left column: Safety pillars + Compliance Preview -->
+      <div class="card">
+        <h3>How Workish protects teens</h3>
+        <ul class="list">
+          <li class="item"><strong>Verified accounts.</strong> Teens and parents create linked accounts; adult customers verify identity and confirm contact info. Government ID or equivalent verification is required for adults before posting or booking jobs.</li>
+          <li class="item"><strong>Parental consent & controls.</strong> Parents approve profiles, task types, hourly limits, curfews, and ride rules (e.g., “no rides with customers”). Parents see and can join every chat and job.</li>
+          <li class="item"><strong>Age-appropriate task catalog.</strong> The marketplace hides tasks that are not permitted for a teen’s age. Hazardous work categories (power tools beyond household use, roofing, ladders >6–8 ft, electrical, confined spaces, etc.) are blocked.</li>
+          <li class="item"><strong>Adult background checks.</strong> Adults agree to screening and safety attestations before they can hire. Flags suspend booking until resolved.</li>
+          <li class="item"><strong>In-app messaging with receipts.</strong> All messages are in-app, time-stamped, and exportable for parents. No off-platform numbers are shown until both sides accept and a parent approves.</li>
+          <li class="item"><strong>Location & check-ins.</strong> Optional arrival/finish check-ins, share-location to parent, and “Help” button to contact a parent or 911.</li>
+          <li class="item"><strong>Job safety checklist.</strong> Each booking includes safety prompts (appropriate clothing/PPE, weather, pet handling, equipment provided by customer, on-site adult, etc.).</li>
+          <li class="item"><strong>Payments & tips handled in-app.</strong> No cash requirements; transparent receipts. Give-back and savings options are parent-visible.</li>
+          <li class="item"><strong>Privacy by design.</strong> Limited profile info; home addresses are masked until a booking is approved. Data is used only to run the service; we don’t sell personal data.</li>
+        </ul>
+      </div>
+
+      <div class="card" aria-label="Know what's allowed">
+        <h3>Know what’s allowed (quick guide)</h3>
+
+        <details class="guard" open>
+          <summary>Age 14–15 • Typical limits</summary>
+          <div class="body">
+            <p>Light, non-hazardous tasks only (yard raking, pet care, tutoring, basic cleaning). School-year hour limits and curfews often apply; hazardous occupations are prohibited.</p>
+            <ul>
+              <li>School days: limited daily hours; no late-night work.</li>
+              <li>Non-school days: more hours but still capped.</li>
+              <li>No hazardous equipment or elevated/roof work.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="guard">
+          <summary>Age 16–17 • Fewer hour limits, still no hazardous work</summary>
+          <div class="body">
+            <p>More schedule flexibility, but hazardous tasks remain off-limits. Parents can set their own stricter guardrails in Workish.</p>
+          </div>
+        </details>
+
+        <details class="guard">
+          <summary>Parents & guardians • Your controls</summary>
+          <div class="body">
+            <ul>
+              <li>Approve/deny tasks, set max weekly hours and curfew times.</li>
+              <li>Require on-site adult and visible house number for outdoor jobs.</li>
+              <li>Lock communication to in-app only; require parent presence for first job.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="guard">
+          <summary>Adults hiring teens • Standards you agree to</summary>
+          <div class="body">
+            <ul>
+              <li>Comply with youth labor rules and provide a safe environment.</li>
+              <li>Supply safe equipment (no hazardous tools), potable water, and weather-appropriate breaks.</li>
+              <li>On-site adult required for jobs at a residence; no driving minors.</li>
+            </ul>
+          </div>
+        </details>
+
+        <p class="tiny">Note: Rules vary by state and may change. Workish applies conservative defaults and allows parents to be stricter.</p>
+      </div>
+
+      <!-- Full width: Compliance Preview -->
+      <div class="card" style="grid-column:1 / -1" aria-label="Compliance Preview">
+        <h3>Compliance Preview (demo)</h3>
+        <p class="tiny">This tool gives a quick, conservative check against common guardrails (e.g., VA school-night curfews for younger teens). It is not legal advice.</p>
+
+        <div class="comp-grid" style="margin-top:8px">
+          <div class="input">
+            <label for="c_state">State</label>
+            <select id="c_state">
+              <option value="VA" selected>VA — Virginia (pilot)</option>
+              <option value="OTHER">Other (general)</option>
+            </select>
+          </div>
+          <div class="input">
+            <label for="c_age">Teen age</label>
+            <select id="c_age">
+              <option>14</option><option selected>15</option><option>16</option><option>17</option>
+            </select>
+          </div>
+          <div class="input">
+            <label for="c_day">Day type</label>
+            <select id="c_day">
+              <option value="school" selected>School day / night</option>
+              <option value="nonschool">Non-school day</option>
+            </select>
+          </div>
+          <div class="input">
+            <label for="c_start">Start time</label>
+            <input id="c_start" type="time" value="16:00">
+          </div>
+          <div class="input">
+            <label for="c_end">End time</label>
+            <input id="c_end" type="time" value="19:30">
+          </div>
+          <div class="input">
+            <label for="c_task">Task category</label>
+            <select id="c_task">
+              <option value="yard">Yardwork (no power tools)</option>
+              <option value="snow">Snow shoveling (walkways only)</option>
+              <option value="pet">Pet care / dog walking</option>
+              <option value="tutor">Tutoring</option>
+              <option value="clean">Light cleaning</option>
+              <option value="power">Power tools / ladders / roof (restricted)</option>
+              <option value="electrical">Electrical / hazardous (restricted)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px">
+          <button class="btn primary" id="c_check">Run check</button>
+          <button class="btn secondary" id="c_reset">Reset</button>
+          <span class="pill" id="c_out_badge" aria-live="polite">Status: —</span>
+        </div>
+
+        <div class="note" id="c_out_msg" style="margin-top:10px">Enter details and select “Run check.”</div>
+
+        <div style="display:grid;gap:10px;margin-top:12px;grid-template-columns:repeat(3,1fr)">
+          <div class="kpi"><div class="label">Max hours (today)</div><div class="val" id="k_max_today">—</div></div>
+          <div class="kpi"><div class="label">Allowed window</div><div class="val" id="k_window">—</div></div>
+          <div class="kpi"><div class="label">Task suitability</div><div class="val" id="k_task">—</div></div>
+        </div>
+      </div>
+
+      <!-- Right column: Reporting & docs -->
+      <div class="card">
+        <h3>Report a concern</h3>
+        <p>If anything feels off, cancel and contact us. We take reports seriously and pause accounts while we review.</p>
+        <ul class="list">
+          <li class="item"><strong>In-app report button</strong> on every job & chat</li>
+          <li class="item"><strong>Escalation path</strong> to staff and—if needed—local authorities</li>
+          <li class="item"><strong>Documentation</strong> export (messages, check-ins, photos)</li>
+        </ul>
+        <a class="apply" href="/contact.html">Contact Safety Team →</a>
+      </div>
+
+      <div class="card">
+        <h3>Insurance, waivers & equipment</h3>
+        <ul class="list">
+          <li class="item">Customers attest their property and tools are safe and in working order; hazardous tools are not permitted for teen taskers.</li>
+          <li class="item">Parents can require PPE (gloves, eye protection) and may approve only “customer-supplied tools.”</li>
+          <li class="item">Workish provides standard waivers and checklists with every booking; copies go to the parent inbox.</li>
+        </ul>
+      </div>
+
+      <!-- Full width: Privacy/disclaimer -->
+      <div class="card" style="grid-column:1 / -1">
+        <h3>Privacy & data use</h3>
+        <p>We collect only what’s needed to operate Workish (account info, booking details, and safety signals such as check-ins). We don’t sell personal data. Parents can download or delete their teen’s data from Settings.</p>
+        <p class="tiny"><strong>Disclaimer:</strong> Workish provides informational guardrails and conservative defaults. This page is not legal advice. Employers and families are responsible for following all applicable laws in their jurisdiction.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    const burger=document.getElementById('navBurger');
+    const panel=document.getElementById('mobilePanel');
+    if(burger&&panel){
+      burger.addEventListener('click',()=>{
+        const open=panel.hasAttribute('hidden');
+        if(open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden','');
+        burger.setAttribute('aria-expanded', String(open));
+      });
+    }
+    // Desktop submenu click toggles
+    document.querySelectorAll('.has-submenu .nav-link').forEach(btn=>{
+      const menu=btn.parentElement.querySelector('.submenu');
+      btn.addEventListener('click',e=>{
+        const visible = menu && menu.style.display==='block';
+        document.querySelectorAll('.submenu').forEach(m=>m.style.display='none');
+        if(menu) menu.style.display = visible ? 'none' : 'block';
+        btn.setAttribute('aria-expanded', String(!visible));
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener('click',()=>{
+      document.querySelectorAll('.submenu').forEach(m=>m.style.display='none');
+      document.querySelectorAll('.has-submenu .nav-link').forEach(b=>b.setAttribute('aria-expanded','false'));
+    });
+
+    // ===== Compliance Preview (demo, conservative rules) =====
+    /*
+      This is a simplified checker:
+      - For VA, we apply conservative common patterns:
+          Ages 14–15 (school day): allow ~3 hrs after school, end by ~7:00–9:00p window (we use 7:00p to be conservative).
+          Ages 14–15 (non-school): allow up to ~8 hrs; end by ~9:00p.
+          Ages 16–17: more flexibility; we use end by 11:00p (conservative).
+      - Hazardous categories are blocked for all minors.
+      NOTE: This is informational only and NOT legal advice.
+    */
+
+    function toMinutes(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+    function fmtTime(mins){ const h=Math.floor(mins/60)%24, m=mins%60; const ampm=h>=12?'PM':'AM'; const hh=((h+11)%12)+1; return hh+':'+String(m).padStart(2,'0')+' '+ampm; }
+
+    function runCheck(){
+      const state = document.getElementById('c_state').value;
+      const age = Number(document.getElementById('c_age').value);
+      const day = document.getElementById('c_day').value;
+      const start = toMinutes(document.getElementById('c_start').value);
+      const end = toMinutes(document.getElementById('c_end').value);
+      const task = document.getElementById('c_task').value;
+
+      // Task suitability
+      let taskOK = true, taskMsg = 'OK';
+      if(task==='power' || task==='electrical'){
+        taskOK = false; taskMsg = 'Restricted / hazardous';
+      }
+
+      // Windows & hours (conservative defaults)
+      let latestEnd, maxHours, earliestStart = 7*60; // 7:00 AM earliest
+      if(age<=15){
+        if(day==='school'){ latestEnd = 19*60; maxHours = 3; } // 7:00 PM
+        else { latestEnd = 21*60; maxHours = 8; } // 9:00 PM
+      } else { // 16–17
+        if(day==='school'){ latestEnd = 23*60; maxHours = 4; } // 11:00 PM
+        else { latestEnd = 23*60; maxHours = 8; }
+      }
+
+      // Adjust for state: for now VA = default, OTHER uses same conservative settings
+      if(state==='OTHER'){ /* same conservative defaults */ }
+
+      const duration = Math.max(0,(end - start))/60;
+      let timeOK = true, timeMsg = 'OK';
+
+      if(start < earliestStart) { timeOK=false; timeMsg = 'Too early'; }
+      if(end > latestEnd) { timeOK=false; timeMsg = 'Ends too late'; }
+      if(duration > maxHours) { timeOK=false; timeMsg = `Exceeds ${maxHours} hr limit`; }
+      if(end <= start){ timeOK=false; timeMsg = 'End must be after start'; }
+
+      // Output
+      const badge = document.getElementById('c_out_badge');
+      const msg = document.getElementById('c_out_msg');
+      const kMax = document.getElementById('k_max_today');
+      const kWin = document.getElementById('k_window');
+      const kTask = document.getElementById('k_task');
+
+      kMax.textContent = maxHours + ' hr';
+      kWin.textContent = fmtTime(earliestStart) + '–' + fmtTime(latestEnd);
+      kTask.textContent = taskMsg;
+
+      if(taskOK && timeOK){
+        badge.textContent = 'Status: Likely allowed (with parent approval)';
+        badge.style.background = '#eaf7ef';
+        badge.style.border = '1px solid #cfe6d7';
+        msg.innerHTML = '<span class="ok">Pass.</span> This schedule and task look compatible with conservative guardrails. Parents can still tighten limits.';
+      } else {
+        badge.textContent = 'Status: Blocked by guardrails';
+        badge.style.background = '#fff2f0';
+        badge.style.border = '1px solid #ffd5cf';
+        const reasons = [];
+        if(!taskOK) reasons.push('task type');
+        if(!timeOK) reasons.push('timing/hours');
+        msg.innerHTML = '<span class="bad">Blocked.</span> Please adjust: ' + reasons.join(' & ') + '.';
+      }
+    }
+
+    document.getElementById('c_check').addEventListener('click', (e)=>{ e.preventDefault(); runCheck(); });
+    document.getElementById('c_reset').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('c_state').value='VA';
+      document.getElementById('c_age').value='15';
+      document.getElementById('c_day').value='school';
+      document.getElementById('c_start').value='16:00';
+      document.getElementById('c_end').value='19:30';
+      document.getElementById('c_task').value='yard';
+      document.getElementById('c_out_badge').textContent='Status: —';
+      document.getElementById('c_out_badge').style.background='';
+      document.getElementById('c_out_badge').style.border='';
+      document.getElementById('c_out_msg').textContent='Enter details and select “Run check.”';
+      document.getElementById('k_max_today').textContent='—';
+      document.getElementById('k_window').textContent='—';
+      document.getElementById('k_task').textContent='—';
+    });
+  </script>
+</body>
+</html>
